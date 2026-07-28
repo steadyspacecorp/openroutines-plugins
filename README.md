@@ -7,6 +7,7 @@ Each top-level directory is one plugin containing a `PLUGIN.md` manifest and its
 ## Available plugins
 
 - [`github-issues`](github-issues/) -- conservatively triages a GitHub repository's issues and prints a weekly issue-health digest.
+- [`steady`](steady/) -- connects an agent to [Steady](https://runsteady.com) like a teammate: a daily check-in filed from the memory feed, and prompt replies to comments addressed to the agent.
 
 ## Install
 
