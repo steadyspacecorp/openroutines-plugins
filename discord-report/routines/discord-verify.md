@@ -22,9 +22,12 @@ rules.
    deleted: say which and stop -- do not attempt the post.
 
 2. **Post the test message.** Via the discord-post skill, with
-   `?wait=true`: content "Wiring check from the agent (run
-   $OPENROUTINES_RUN_ID) -- safe to ignore." No embed needed;
-   `allowed_mentions` rules still apply.
+   `?wait=true`. Introduce yourself by name -- you know who you are
+   and what your job is from your standing context -- warm and brief,
+   in the spirit of: "👋 Hi, I'm <your name>! Quick check that I can post
+   here. If you can see this, we're all set -- nothing for you to do."
+   Append the run id in parentheses for diagnostics. No embed needed;
+   the `allowed_mentions` suppression still applies.
 
 3. **Report the outcome precisely.** HTTP 200 with a message `id` means
    the wiring works end to end: say so, and quote the id. Otherwise

@@ -21,9 +21,12 @@ not read memory, consume anything, or retry beyond the skill's rules.
    attempt the post.
 
 2. **Post the test message.** Via the slack-post skill, to
-   `$SLACK_CHANNEL`: "Wiring check from the agent (run
-   $OPENROUTINES_RUN_ID) -- safe to ignore." No embeds or sections
-   needed; `allowed_mentions` rules still apply.
+   `$SLACK_CHANNEL`. Introduce yourself by name -- you know who you are
+   and what your job is from your standing context -- warm and brief,
+   in the spirit of: "👋 Hi, I'm <your name>! Quick check that I can post
+   here. If you can see this, we're all set -- nothing for you to do."
+   Append the run id in parentheses for diagnostics. Plain text is
+   fine; the skill's no-pings conduct still applies.
 
 3. **Report the outcome precisely.** `ok: true` with a message `ts`
    means the wiring works end to end: say so, and quote the ts. On
