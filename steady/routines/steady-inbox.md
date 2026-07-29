@@ -15,16 +15,23 @@ Watch Steady and keep memory current. Replying to comments is your only
 Steady write — everything else the agent reports goes through
 steady-check-in. Most runs find nothing new: end quickly.
 
-## 1. Collect
+## 1. Gate on the digest
 
-- Your own id.
-- Your check-ins from the last 7 days, then the comments on each.
-- The digest since the day before your last completed check-in — it
-  catches comments elsewhere: on your goal updates, and comments or
-  @mentions of you on other people's resources (mentions land among the
-  digest's comment entries). No check-in to anchor on → look back 3
-  days. Keep no cursor; re-reading is safe.
-- Teammates' check-ins over the same window.
+One cheap call decides whether this run has work: fetch the digest
+since a day before your newest ledger entry (no ledger yet → 3 days
+back), and sort its entries:
+
+- A comment entry that is not yours, not in your ledger, and addressed
+  to you (on your resources, or @mentioning you on anyone's) → step 2
+  work.
+- A teammate's check-in entry you haven't seen → step 3 material.
+- Nothing in either bucket → stop. Most runs end here, a few calls in.
+
+Fetch a resource's full thread only when you are about to reply on it —
+the thread is reply context and the double-reply check, never a
+standing sweep. Fetch a teammate's check-in body only when the digest
+surfaced it. Keep no cursor; re-reading the digest is safe — the ledger
+is what makes replays harmless.
 
 ## 2. Answer comments
 
