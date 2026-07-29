@@ -44,8 +44,10 @@ name or @mention, never anonymized to "a customer". Task ids like
 `task-20260721-2` are your own bookkeeping — name the ask, never the id.
 
 - **previous** — the inbox's new events, summarized into a good update.
-  One bullet per event: what you swept, then what came of it. Anything
-  beyond what the events say is invention.
+  One bullet per event — what you swept, then what came of it — except
+  events labeled NO-OP: drop those. If that leaves nothing, previous is
+  a single line summarizing the NO-OPs. Anything beyond what the events
+  say is invention.
 
   Events are written for you, not for the team — full facts and receipts.
   The rewrite drops, it doesn't condense evenly:
@@ -75,8 +77,6 @@ name or @mention, never anonymized to "a customer". Task ids like
   ("long-idle", "quick win") goes with it. A sentence that says what
   happened next rather than why it matters gets deleted, not shortened.
 
-  A NO-OP never gets its own bullet when real outcomes fill the update;
-  on a quiet day the NO-OPs are the update.
 - **intentions** — required; never blank. Intentions project the
   schedule, not the task list: write one line per routine in
   ./schedule.md's in-window table. Each line is the
