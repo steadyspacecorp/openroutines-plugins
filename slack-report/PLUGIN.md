@@ -16,6 +16,7 @@ Points an agent's reporting at a Slack channel. The routine is a memory-feed con
 ## What you get
 
 - **slack-report** -- consumes the memory change feed and posts a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no post -- the channel never gets a "nothing to report" message.
+- **slack-verify** -- a manual-only wiring check: run `openroutines routines run slack-verify` after setup and it posts one labeled test message, or tells you exactly which piece (token, invite, channel ID) is wrong. It ships inactive and stays that way; the scheduler never fires it.
 - **slack-post** skill -- how to format and send the message: one plain-text fallback, Block Kit sections, the `ok: true` delivery check, no @channel.
 
 ## Why a bot token, not a webhook
@@ -52,6 +53,7 @@ Rename the display names to match your agent. Then **Install to Workspace** and 
 1. `openroutines credentials set slack_bot_token` -- the `xoxb-` token from the step above.
 2. Invite the bot to the target channel (`/invite @openroutines-agent`) and copy the channel ID from the channel's details pane (starts with `C`).
 3. Set the `slack_channel` variable in `openroutines.yml` to that ID.
-4. Adjust the schedule, then `openroutines check`, review the diff, commit.
+4. `openroutines routines run slack-verify` -- posts one labeled test message through the real wiring and diagnoses any failure. (`openroutines routines test slack-report` separately rehearses the digest's composition without credentials or side effects.)
+5. Adjust the schedule, then `openroutines check`, review the diff, commit.
 
 Works alongside other consumers: each keeps its own cursor over the same feed, so adding Slack changes nothing about the routines doing the work -- or about any other destination already reporting. Re-pointing the report later is a `slack_channel` edit plus an invite, never a reinstall.
