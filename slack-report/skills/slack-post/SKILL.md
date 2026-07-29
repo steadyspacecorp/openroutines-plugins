@@ -13,11 +13,14 @@ the bot has been invited to, and this skill posts solely to
 
 ## Sending
 
+Write scratch files under `$TMPDIR` (the run's writable tmp) -- the
+sandbox makes `/tmp` itself read-only, so `/tmp/...` paths fail.
+
 ```bash
 curl -sS -X POST https://slack.com/api/chat.postMessage \
   -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
   -H "Content-Type: application/json; charset=utf-8" \
-  -d @/tmp/payload.json > /tmp/slack-resp
+  -d @"$TMPDIR/payload.json" > "$TMPDIR/slack-resp"
 ```
 
 Delivery is `"ok": true` in the response body -- **Slack returns HTTP 200

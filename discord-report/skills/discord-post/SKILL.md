@@ -14,11 +14,14 @@ message.
 Always post with `?wait=true`: without it Discord answers 204 No Content
 before the message is created, which proves acceptance, not delivery.
 
+Write scratch files under `$TMPDIR` (the run's writable tmp) -- the
+sandbox makes `/tmp` itself read-only, so `/tmp/...` paths fail.
+
 ```bash
-curl -sS -o /tmp/discord-resp -w "%{http_code}" -X POST \
+curl -sS -o "$TMPDIR/discord-resp" -w "%{http_code}" -X POST \
   "$DISCORD_WEBHOOK_URL?wait=true" \
   -H "Content-Type: application/json" \
-  -d @/tmp/payload.json
+  -d @"$TMPDIR/payload.json"
 ```
 
 Treat exactly HTTP 200 with a response body containing the created
