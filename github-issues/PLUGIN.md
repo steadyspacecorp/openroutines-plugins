@@ -35,7 +35,7 @@ Install it on exactly the repository named by `github_repo`. OpenRoutines' `gith
 
 ## After installing
 
-1. Add the typed credential metadata to `openroutines.yaml`:
+1. Add the typed credential metadata to `openroutines.yml`:
 
    ```yaml
    credentials:
