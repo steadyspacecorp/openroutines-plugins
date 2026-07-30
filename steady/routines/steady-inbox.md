@@ -1,5 +1,5 @@
 ---
-schedule: "45 8-17/3 * * 1-5"
+schedule: "45 8,17 * * 1-5"
 trigger:
   poll: https://service.steady.space/api/v2/digest?category=comment&per_page=1
   select: /0/id
