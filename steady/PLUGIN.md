@@ -22,7 +22,8 @@ on its work, and replies to comments addressed to it.
   worked on, what it plans next, and where it waits on a teammate.
 - **steady-inbox** -- the agent's side of the conversation: answers
   comments addressed to it, turns action requests into tracked tasks,
-  and keeps its memory current with what teammates are working on.
+  and keeps its memory current with teammates' work and the goals the
+  agent is involved in.
 
 ## After installing
 

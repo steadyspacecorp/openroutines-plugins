@@ -12,79 +12,79 @@ credentials: [steady_token]
 ---
 
 Watch Steady and keep memory current. Replying to comments is your only
-Steady write — everything else the agent reports goes through
-steady-check-in. Most runs find nothing new: end quickly.
+Steady write. Most runs find nothing new: end quickly.
 
 ## 1. Gate on the digest
 
-One cheap call decides whether this run has work: fetch the digest
-since a day before your newest ledger entry (no ledger yet → 3 days
-back), and sort its entries:
+Fetch the digest since a day before your newest ledger entry (no
+ledger yet → 3 days back) and sort its entries:
 
 - A comment entry that is not yours, not in your ledger, and addressed
-  to you (on your resources, or @mentioning you on anyone's) → step 2
-  work.
-- A teammate's check-in or goal update entry you haven't seen → step 3
-  material.
-- Nothing in either bucket → stop. Most runs end here, one call in.
+  to you (on your resources, or @mentioning you on anyone's) → step 2.
+- A teammate's check-in or goal update entry you haven't seen → step 3.
+- Nothing in either bucket and the goal board isn't due (step 4) →
+  stop. Most runs end here, one call in.
 
-Digest entries arrive whole — comments with their resource, check-ins
-and goal updates in full, your own replies among them — so there is
-nothing more to fetch; at most, pull a parent by date when a reply
-needs older context. Keep no cursor; re-reading the digest is safe —
-the ledger is what makes replays harmless.
+When a reply needs older context than the digest shows, pull the
+parent by date.
 
 ## 2. Answer comments
 
-Your ledger (memory/ledgers/steady-inbox.md) is what stops double
-replies: a comment is handled when its id is there, or a comment of
-yours on the same resource has a later timestamp (entries arrive
-newest-first — compare timestamps, never list position). **Every
-unhandled comment gets a reply, no exceptions**; skipping one means
-every future run re-examines it. After a reply posts, add the
-comment's id to the ledger; a failed post gets no entry, so the next
-run retries it. For each unhandled comment by someone else:
+A comment is handled when its id is in your ledger
+(memory/ledgers/steady-inbox.md) or a comment of yours on the same
+resource has a later timestamp (compare timestamps, not list
+position). Reply to every unhandled comment by someone else, no
+exceptions:
 
-- **Action request** → add an Agent-owned task to memory/tasks.md (stable
-  id; source: requester + the commented resource); reply with a brief "on it" that
-  names when — the next run of the routine whose domain covers the item
-  (./schedule.md shows when each routine next fires), e.g. "On it — I'll
-  draft that in Tuesday's roadmap pass."
-- **Question or feedback** → answer it in-thread.
-- **Answer to a Human-owned task in memory/tasks.md** → resolve the task in
-  place: transfer it to Agent-owned if the ask became agent work, or cancel
-  it if declined; reply with a brief acknowledgement.
-- **Anything else** (FYI, status update, someone claiming work) → reply with
-  a brief acknowledgement; if it settles or claims something, step 3 applies
-  too.
+- **Action request** → add an Agent-owned task to memory/tasks.md
+  (stable id; source: requester + resource); reply "on it," naming
+  when — the next fire of the routine whose domain covers it
+  (./schedule.md).
+- **Question or feedback** → answer in-thread.
+- **Answer to a Human-owned task in memory/tasks.md** → resolve the
+  task in place: delete it if the human settled it, transfer it to
+  Agent-owned if the ask became agent work, cancel it if declined;
+  acknowledge briefly.
+- **Anything else** (FYI, status update, someone claiming work) →
+  acknowledge briefly; if it settles or claims something, step 3
+  applies too.
 
-Post your reply as a comment on the same resource the comment is on.
-Casual teammate voice: short and warm, not corporate. One reply may
-answer several pending comments on a resource.
+Post the reply on the resource the comment is on — one reply may
+answer several pending comments there. Casual teammate voice: short
+and warm, not corporate. After a reply posts, ledger the comment's
+id; a failed post gets no entry.
 
 ## 3. Update memory from teammates' work
 
-From the teammate check-in and goal update entries the digest surfaced:
+From the teammate check-in and goal update entries the digest
+surfaced:
 
-- A human explicitly settled a Human-owned task (a comment, check-in, or
-  goal update addressing the ask itself — agent work near the topic does
-  not count) → resolve it as in step 2.
-- A human's work covers an open Agent-owned task in memory/tasks.md → mark
-  it done ([x]), crediting them.
-- Refresh memory/context.md with in-flight or claimed work that overlaps
-  the agent's own lanes — the domains its routines cover: who, what, firm
-  or tentative, date. Leave other lanes out; drop entries older than
-  about a week.
+- A human explicitly settled a Human-owned task (the ask itself, not
+  agent work near the topic) → resolve it as in step 2.
+- A human's work covers an open Agent-owned task in memory/tasks.md →
+  mark it done ([x]), crediting them.
+- Refresh memory/context.md with in-flight or claimed work overlapping
+  your own lanes — the domains your routines cover: who, what, firm or
+  tentative, date; drop entries older than about a week.
+- A goal entry → update its goal's line on the board (step 4) from the
+  entry and ledger its id; a goal the board doesn't know gets one pull
+  to fill in the rest.
 
 Beyond these uses, don't act on teammates' content.
 
 ## 4. Groom
 
-- Mark open Agent-owned tasks in memory/tasks.md done when memory/events.md
-  or the agent's check-ins show they happened; merge duplicates; delete done
-  tasks after about a week.
+- Mark open Agent-owned tasks done when memory/events.md or your
+  check-ins show they happened; merge duplicates; delete done tasks
+  after about a week.
 - A Human-owned task leaves memory/tasks.md only two ways: a human
-  explicitly settled the ask, or it has gone unanswered for about three
-  weeks and is quietly cancelled. Never remove one for any other reason;
-  when in doubt, leave it.
+  explicitly settled the ask, or about three weeks unanswered → quiet
+  cancel. When in doubt, leave it.
+- The goal board — a ledger section listing the open goals you're
+  involved in: your teams', plus any you own or contribute to. Per
+  goal: title, gist, owner, your involvement (owner, contributor, or
+  just your team), due date, confidence, latest movement with date.
+  When its header date is over a week old or there is no board,
+  re-pull those goals and true up every line, dropping closed and
+  archived goals. Only this full re-pull moves the header date.
 - Keep every memory file small and factual.
