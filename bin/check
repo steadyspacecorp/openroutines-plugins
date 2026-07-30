@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+# Integrity check: validate every plugin against the contract in AGENTS.md.
+# Pure bash plus standard tools; used by CI and useful locally before
+# handing off a plugin. Reports every violation, then exits non-zero.
+set -euo pipefail
+
+repo="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$repo"
+
+fail=0
+ok()  { printf 'ok   %s\n' "$1"; }
+err() { printf 'FAIL %s\n' "$1" >&2; fail=$((fail + 1)); }
+
+# Print the YAML frontmatter block of a file (between the first two --- lines).
+frontmatter() { awk 'NR==1 && $0!="---"{exit} /^---$/{n++; next} n==1{print} n>1{exit}' "$1"; }
+
+has_frontmatter() {
+  [[ "$(head -1 "$1")" == "---" ]] && awk '/^---$/{n++} END{exit n<2}' "$1"
+}
+
+# Repo-wide: no symlinks, no nested Git metadata.
+if find . -path ./.git -prune -o -type l -print | grep -q .; then
+  err "symlinks present: $(find . -path ./.git -prune -o -type l -print | tr '\n' ' ')"
+else
+  ok "no symlinks"
+fi
+if find . -path ./.git -prune -o -name '.git' -print | grep -q .; then
+  err "nested Git metadata present"
+else
+  ok "no nested Git metadata"
+fi
+
+for dir in */; do
+  p="${dir%/}"
+  case "$p" in bin | .github) continue ;; esac
+
+  before=$fail
+
+  if [[ ! -f "$p/PLUGIN.md" ]]; then
+    err "$p: missing PLUGIN.md"
+    continue
+  fi
+
+  if ! has_frontmatter "$p/PLUGIN.md"; then
+    err "$p: PLUGIN.md has no frontmatter block"
+    continue
+  fi
+  fm="$(frontmatter "$p/PLUGIN.md")"
+
+  name="$(printf '%s\n' "$fm" | sed -n 's/^name:[[:space:]]*//p' | head -1)"
+  [[ "$name" == "$p" ]] || err "$p: PLUGIN.md name '$name' does not match directory"
+  [[ "$name" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "$p: name '$name' is not bare lowercase-hyphen"
+  printf '%s\n' "$fm" | grep -q '^description:[[:space:]]*[^[:space:]]' || err "$p: PLUGIN.md missing description"
+
+  # Payload is limited to PLUGIN.md, routines/, skills/, and memory/ledgers/.
+  extra="$(find "$p" -mindepth 1 -maxdepth 1 ! -name PLUGIN.md ! -name routines ! -name skills ! -name memory)"
+  [[ -z "$extra" ]] || err "$p: unexpected payload: $(echo "$extra" | tr '\n' ' ')"
+  if [[ -d "$p/memory" ]]; then
+    extra="$(find "$p/memory" -mindepth 1 -maxdepth 1 ! -name ledgers
+             [[ -d "$p/memory/ledgers" ]] && find "$p/memory/ledgers" -mindepth 1 ! \( -type f -name '*.md' \))"
+    [[ -z "$extra" ]] || err "$p: memory/ may contain only ledgers/*.md: $(echo "$extra" | tr '\n' ' ')"
+  fi
+
+  # Routines are flat Markdown files with frontmatter.
+  routines=0
+  if [[ -d "$p/routines" ]]; then
+    extra="$(find "$p/routines" -mindepth 1 ! \( -type f -name '*.md' -mindepth 1 -maxdepth 1 \))"
+    [[ -z "$extra" ]] || err "$p: routines/ must hold only flat .md files: $(echo "$extra" | tr '\n' ' ')"
+    for r in "$p"/routines/*.md; do
+      [[ -e "$r" ]] || continue
+      routines=$((routines + 1))
+      has_frontmatter "$r" || err "$r: missing frontmatter block"
+    done
+  fi
+
+  # Skills follow the Agent Skills standard and their name matches the directory.
+  skills=0
+  if [[ -d "$p/skills" ]]; then
+    extra="$(find "$p/skills" -mindepth 1 -maxdepth 1 ! -type d)"
+    [[ -z "$extra" ]] || err "$p: skills/ must hold only skill directories: $(echo "$extra" | tr '\n' ' ')"
+    for s in "$p"/skills/*/; do
+      [[ -e "$s" ]] || continue
+      skills=$((skills + 1))
+      sname="$(basename "$s")"
+      if [[ ! -f "$s/SKILL.md" ]] || ! has_frontmatter "$s/SKILL.md"; then
+        err "$p: skills/$sname missing SKILL.md with frontmatter"
+        continue
+      fi
+      declared="$(frontmatter "$s/SKILL.md" | sed -n 's/^name:[[:space:]]*//p' | head -1)"
+      [[ "$declared" == "$sname" ]] || err "$p: skills/$sname SKILL.md name '$declared' does not match directory"
+    done
+  fi
+
+  # Every credential a routine uses must be declared in PLUGIN.md.
+  creds="$(printf '%s\n' "$fm" | awk '/^credentials:/{c=1; next} c && /^[^ ]/{c=0} c && match($0, /^  [A-Za-z0-9_]+:/){s=$1; sub(/:$/,"",s); print s}')"
+  for r in "$p"/routines/*.md; do
+    [[ -e "$r" ]] || continue
+    used="$(frontmatter "$r" | awk '
+      /^credentials:[[:space:]]*\[/ {s=$0; sub(/^credentials:[[:space:]]*\[/,"",s); sub(/\].*/,"",s); gsub(/[ ,]+/,"\n",s); print s; next}
+      /^credentials:[[:space:]]*$/ {c=1; next}
+      c && /^[[:space:]]*-[[:space:]]*/ {s=$0; sub(/^[[:space:]]*-[[:space:]]*/,"",s); print s; next}
+      c {c=0}')"
+    for u in $used; do
+      printf '%s\n' "$creds" | grep -qx "$u" || err "$r: credential '$u' not declared in $p/PLUGIN.md"
+    done
+  done
+
+  [[ "$fail" -eq "$before" ]] && ok "$p ($routines routines, $skills skills)"
+done
+
+if [[ "$fail" -ne 0 ]]; then
+  printf 'FAIL integrity check\n' >&2
+  exit 1
+fi
+printf 'ok   integrity check\n'
