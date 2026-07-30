@@ -1,42 +1,33 @@
 ---
 name: steady
-description: Connect an agent to Steady like a teammate -- a daily check-in filed from the memory feed, and prompt replies to comments addressed to the agent.
+description: Connect an agent to Steady -- a daily check-in on its work, and prompt replies to comments addressed to it.
 credentials:
   steady_token:
     description: A Steady personal access token (steady_pat_..., read+write) for the agent's own Steady account
 mcp:
   steady:
-    description: Steady's MCP server -- action items, the check-in form, and submission
+    description: Steady's MCP server -- the digest, comments, action items, check-ins, and goals
     url: https://app.steady.space/mcp
     credential: steady_token
 ---
 
 # steady
 
-Connects an agent to [Steady](https://runsteady.com) the way a teammate is
-connected: a daily check-in composed from the agent's memory change feed,
-and replies to comments addressed to the agent.
+Connects an agent to [Steady](https://runsteady.com): a daily check-in
+on its work, and replies to comments addressed to it.
 
 ## What you get
 
-- **steady-check-in** -- weekday mornings, consumes the memory change
-  feed and files one check-in covering everything since the last one:
-  previous work rewritten from events, intentions transcribed from the
-  injected schedule, blockers from human-owned asks. Talks to Steady
-  through the MCP server.
-- **steady-inbox** -- every few hours on workdays (with a poll trigger
-  for low-latency replies), answers comments on the agent's check-ins
-  and goal updates, turns action requests into memory tasks, and grooms
-  the task list. Most runs find nothing and end quickly. Replies post
-  through the REST API via the bundled skill -- Steady's MCP server has
-  no comment tools yet; when it grows them, this routine switches with a
-  frontmatter-only edit.
-- **steady-api** skill -- the API reference the inbox works from.
+- **steady-check-in** -- files the agent's daily check-in: what it
+  worked on, what it plans next, and where it waits on a teammate.
+- **steady-inbox** -- the agent's side of the conversation: answers
+  comments addressed to it, turns action requests into tracked tasks,
+  and keeps its memory current with what teammates are working on.
 
 ## After installing
 
 1. `openroutines credentials set steady_token` -- a personal access
-   token for the agent's own Steady account (Settings → Integrations).
+   token for the agent's own Steady account (Settings → Agents).
 2. Accept the MCP server definition when the install offers it (or paste
    the printed snippet into opencode.json).
 3. Adjust the schedules to your workday; both routines assume the

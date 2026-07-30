@@ -7,7 +7,7 @@ trigger:
   credential: steady_token
 timeout: 10m
 events: false
-skills: [steady-api]
+mcp: [steady]
 credentials: [steady_token]
 ---
 
@@ -24,30 +24,26 @@ back), and sort its entries:
 - A comment entry that is not yours, not in your ledger, and addressed
   to you (on your resources, or @mentioning you on anyone's) → step 2
   work.
-- A teammate's check-in entry you haven't seen → step 3 material.
-- Nothing in either bucket → stop. Most runs end here, a few calls in.
+- A teammate's check-in or goal update entry you haven't seen → step 3
+  material.
+- Nothing in either bucket → stop. Most runs end here, one call in.
 
-Fetch a resource's full thread only when you are about to reply on it —
-the thread is reply context and the double-reply check, never a
-standing sweep. Fetch a teammate's check-in body only when the digest
-surfaced it. Keep no cursor; re-reading the digest is safe — the ledger
-is what makes replays harmless.
+Digest entries arrive whole — comments with their resource, check-ins
+and goal updates in full, your own replies among them — so there is
+nothing more to fetch; at most, pull a parent by date when a reply
+needs older context. Keep no cursor; re-reading the digest is safe —
+the ledger is what makes replays harmless.
 
 ## 2. Answer comments
 
-Your ledger (memory/ledgers/steady-inbox.md) records the ids of comments
-you already replied to — that record is what stops double replies. A
-comment is handled when its id is in the ledger, or a comment of yours on
-the same resource has a later created_at (comments arrive newest-first —
-compare timestamps, never list position). **Every unhandled
-comment gets a reply, no exceptions**; skipping one means every future run
-re-examines it. After a reply posts successfully, add the replied-to
-comment's id to the ledger; a failed post gets no entry, so the next run
-retries it. Prune entries once their comment ages out of the collection
-window. In scope: every comment addressed to you — on your own check-ins
-and goal updates, or mentioning you on anyone's (reply in that resource's
-thread). Teammate content that doesn't address you still belongs to step 3
-only. For each in-scope, unhandled comment by someone else:
+Your ledger (memory/ledgers/steady-inbox.md) is what stops double
+replies: a comment is handled when its id is there, or a comment of
+yours on the same resource has a later timestamp (entries arrive
+newest-first — compare timestamps, never list position). **Every
+unhandled comment gets a reply, no exceptions**; skipping one means
+every future run re-examines it. After a reply posts, add the
+comment's id to the ledger; a failed post gets no entry, so the next
+run retries it. For each unhandled comment by someone else:
 
 - **Action request** → add an Agent-owned task to memory/tasks.md (stable
   id; source: requester + the commented resource); reply with a brief "on it" that
@@ -63,12 +59,12 @@ only. For each in-scope, unhandled comment by someone else:
   too.
 
 Post your reply as a comment on the same resource the comment is on.
-Casual teammate voice: short and warm, not corporate. One reply may answer several pending comments on a resource. A
-failed post just leaves the comment unanswered for the next run.
+Casual teammate voice: short and warm, not corporate. One reply may
+answer several pending comments on a resource.
 
 ## 3. Update memory from teammates' work
 
-From the check-ins and goal updates you pulled:
+From the teammate check-in and goal update entries the digest surfaced:
 
 - A human explicitly settled a Human-owned task (a comment, check-in, or
   goal update addressing the ask itself — agent work near the topic does
