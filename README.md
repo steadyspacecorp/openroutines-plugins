@@ -1,5 +1,7 @@
 # OpenRoutines plugins
 
+> **Early alpha:** OpenRoutines and these plugins are under active development and not ready for production use. APIs, configuration, and behavior may change without notice. We're sharing the work early -- watch the repositories for updates.
+
 Reusable capability bundles for [OpenRoutines](https://github.com/steadyspacecorp/openroutines).
 
 Each top-level directory is one plugin containing a `PLUGIN.md` manifest and its grouped routines, skills, and optional memory-ledger stubs. Plugins are executable supply-chain input: review the declared authority, routine prompts, and skill files before installing or updating one.
