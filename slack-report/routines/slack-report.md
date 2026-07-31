@@ -13,6 +13,14 @@ memory changes since the last report; your output is at most one
 `chat.postMessage` call to `$SLACK_CHANNEL`. The slack-post skill covers
 formatting and sending.
 
+## Execution discipline
+
+Your first and only initial action is to read `inbox.md`. If it says
+`No pending changes`, stop immediately: call no other tools, read no
+memory files or schedule, and do not look for a ledger. Otherwise, use
+only the pending inbox changes and the specific current-state files
+needed to compose the report.
+
 ## 1. Gate
 
 An empty inbox means nothing happened since the last report: exit without
