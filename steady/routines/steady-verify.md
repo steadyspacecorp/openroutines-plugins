@@ -10,8 +10,8 @@ mcp: [steady]
 credentials: [steady_token]
 ---
 
-Verify the Steady MCP connection end to end. Using only the Steady MCP server, create exactly one use activity that says this agent verified its Steady connection and includes `$OPENROUTINES_RUN_ID` so the activity is unmistakably a test.
+Verify the Steady MCP connection end to end. Using only the Steady MCP server, create exactly one use activity that says this agent verified its Steady connection and includes `$OPENROUTINES_RUN_ID` so the activity is unmistakably a test. Use `https://openroutines.dev` as the activity URL -- never invent or use a placeholder URL.
 
 Do not create or edit any check-ins, comments, goals, updates, action items, or other records. Do not call the Steady API directly, use curl, or retry.
 
-On success, report the activity ID and tell the operator to confirm it appears in Steady. On failure, report the MCP error plainly and make no other writes.
+Do not narrate your steps. On success, output exactly one line: `Steady verified: activity created for $OPENROUTINES_RUN_ID.` On failure, output one concise line naming the MCP error and likely fix. Make no other writes.
