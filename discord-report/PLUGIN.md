@@ -22,7 +22,9 @@ Unlike Slack, Discord's channel webhooks are a first-class, supported feature, s
 
 1. In the target channel: Settings → Integrations → Webhooks → New Webhook. Name it after your agent (that's the poster's display name), then copy the URL.
 2. `openroutines credentials set discord_webhook_url`
-3. `openroutines routines run discord-verify` -- confirms the webhook and posts one labeled test message through the real wiring. (`openroutines routines test discord-report` separately rehearses the digest's composition without credentials or side effects.)
+3. `openroutines routines run discord-verify` -- confirms the webhook and posts one labeled test message through the real wiring.
 4. Adjust the schedule, then `openroutines check`, review the diff, commit.
+
+`--no-memory` discards memory settlement only; it does not suppress Discord posts or withhold credentials. `openroutines check` is the non-acting validation path.
 
 Works alongside other consumers: each keeps its own cursor over the same feed, so adding Discord changes nothing about the routines doing the work -- or about any other destination already reporting. To re-point the report, create a webhook in the new channel and re-set the credential.

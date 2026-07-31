@@ -15,6 +15,15 @@ routine posts exactly one clearly labeled test message and nothing else;
 it does not read memory, consume anything, or retry beyond the skill's
 rules.
 
+## Execution discipline
+
+Do exactly the verification below: load `discord-post`, GET the webhook,
+then, only when that succeeds, POST one test message. Do not inspect or
+print environment variables, schedules, routines, memory, or unrelated
+files; never echo the webhook URL. Do not narrate between actions. Keep
+the final result to one short sentence naming the webhook, channel id,
+and delivered message id, or the single failure and its remedy.
+
 1. **Check the webhook without posting.** A bare GET on
    `$DISCORD_WEBHOOK_URL` returns the webhook object. Report its `name`
    and `channel_id` -- that confirms the URL is live and where it
