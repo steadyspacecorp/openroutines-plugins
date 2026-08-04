@@ -9,7 +9,8 @@ An on-demand check-in for the operator's own terminal. Run it locally after `ope
 
 ## What you get
 
-- **tui-report** -- reads `memory/events.md`, `memory/tasks.md`, and the run's `schedule.md`, and prints a three-section check-in: last 24 hours, next 24 hours, blocked. It ships inactive and stays that way; the scheduler never fires it -- it exists to be run by hand.
+- **tui-report** (routine) -- reads `memory/events.md`, `memory/tasks.md`, and the run's `schedule.md`, and prints a three-section check-in: last 24 hours, next 24 hours, blocked. It ships inactive and stays that way; the scheduler never fires it -- it exists to be run by hand.
+- **bin/tui-report** (operator script) -- the way you actually run it: wraps the invocation (quiet log level, `--no-memory`) and colorizes the report's landmark lines when stdout is a TTY, plain when piped. Installs non-executable; review it, then `chmod +x plugins/tui-report/bin/tui-report`. Plugin updates reset it to non-executable -- re-review, re-chmod.
 
 Unlike the reporting consumers, this routine keeps no cursor over the memory feed. It reports a time window, not "everything since last report", so running it twice in a row shows the same picture, and it never affects what slack-report, discord-report, or the Steady check-in will deliver.
 
@@ -17,30 +18,19 @@ Unlike the reporting consumers, this routine keeps no cursor over the memory fee
 
 ```bash
 openroutines sync
-OPENROUTINES_LOG_LEVEL=warn openroutines routines run tui-report --no-memory
+plugins/tui-report/bin/tui-report
 ```
 
-The routine prints plain text in a fixed shape: rules of `─` characters, a name-and-timestamp header, and three uppercase section titles. Because the shape is fixed, color is a display decision your shell makes, not something the model has to get right -- pipe through the small sed below (works with macOS/BSD sed and GNU sed) or wrap it in a function or alias:
+The routine prints plain text in a fixed shape -- rules of `─` characters, a name-and-timestamp header, three uppercase section titles -- and the script colorizes those landmark lines at display time (cyan sections, red BLOCKED, dim rules; works with macOS/BSD sed and GNU sed). Color is a display decision the script makes, not something the model has to get right, so redirected output stays clean and the run's trailer and any surviving log lines pass through unchanged.
 
-```bash
-tui-report() {
-  OPENROUTINES_LOG_LEVEL=warn openroutines routines run tui-report --no-memory | sed \
-    -e $'s/^\\( *\\)LAST 24 HOURS$/\\1\e[1;36mLAST 24 HOURS\e[0m/' \
-    -e $'s/^\\( *\\)NEXT 24 HOURS$/\\1\e[1;36mNEXT 24 HOURS\e[0m/' \
-    -e $'s/^\\( *\\)BLOCKED$/\\1\e[1;31mBLOCKED\e[0m/' \
-    -e $'s/^──*$/\e[2m&\e[0m/'
-}
-```
+The script sets `OPENROUTINES_LOG_LEVEL=warn`, which is what keeps the terminal readable: a run's diagnostic log (opencode's INFO stream, passed through line by line) shares the terminal with the echoed report, and warn silences it at the source while still surfacing anything degraded or failing. The report itself is not log lines and prints at any level.
 
-Bare output stays clean for redirection; the colorizer touches only the report's own landmark lines, so the run's trailer and any surviving log lines pass through unchanged.
-
-`OPENROUTINES_LOG_LEVEL=warn` is what keeps the terminal readable: a run's diagnostic log (opencode's INFO stream, passed through line by line) shares the terminal with the echoed report, and warn silences it at the source while still surfacing anything degraded or failing. The report itself is not log lines and prints at any level.
-
-Always pass `--no-memory`. The routine itself writes nothing, but a manual run otherwise settles its run record into the local memory worktree -- and local commits on the `memory` branch diverge from what the deployed agent pushes, which the next `openroutines sync` will refuse to reconcile. `--no-memory` keeps the local checkout a pure reader.
+It also passes `--no-memory`, always. The routine itself writes nothing, but a manual run otherwise settles its run record into the local memory worktree -- and local commits on the `memory` branch diverge from what the deployed agent pushes, which the next `openroutines sync` will refuse to reconcile. `--no-memory` keeps the local checkout a pure reader.
 
 The report covers what the synced memory covers: run `openroutines sync` first or you are reading the picture as of your last sync. No credentials or MCP servers are needed beyond the model provider key every local run already uses.
 
 ## After installing
 
-1. `openroutines check`, review the diff, commit.
-2. Leave the routine inactive -- activating it would have the deployed agent print a report into its container logs on a schedule, which is not what this plugin is for.
+1. `openroutines check`, review the diff -- the script included -- and commit.
+2. `chmod +x plugins/tui-report/bin/tui-report` -- the framework installs operator scripts non-executable; making it runnable is your call, after reading it.
+3. Leave the routine inactive -- activating it would have the deployed agent print a report into its container logs on a schedule, which is not what this plugin is for.

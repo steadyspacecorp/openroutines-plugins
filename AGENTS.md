@@ -11,7 +11,7 @@ Plugins are executable supply-chain input. Routine prompts and skill instruction
 ## Plugin contract
 
 - `PLUGIN.md` is required at the plugin root. Its strict YAML frontmatter declares a bare lowercase-hyphen `name`, a useful `description`, and any required `credentials` and non-secret `variables`. Never include credential values.
-- Payload is limited to `routines/`, `skills/`, and `memory/ledgers/` stubs. Do not add config files, Dockerfiles, key material, nested Git metadata, symlinks, devices, or install hooks.
+- Payload is limited to `routines/`, `skills/`, `bin/` operator scripts, and `memory/ledgers/` stubs. A `bin/` script is a hand-run convenience wrapper: it installs non-executable and stays off PATH; the person reviews it and runs `chmod +x` to adopt it, and every plugin update resets it to non-executable. Do not add config files, Dockerfiles, key material, nested Git metadata, symlinks, devices, or install hooks.
 - Routine files are flat `routines/<name>.md` Markdown files. Frontmatter declares schedules, triggers, models, skills, and credentials; the body is the prompt. Use **routine**, never job.
 - Skills follow the Agent Skills standard: `skills/<name>/SKILL.md`, with name and description frontmatter. A shipped skill's frontmatter name must match its directory.
 - A plugin routine may use a skill already present in a particular agent, but a reusable plugin should normally ship every specialized skill it declares.
