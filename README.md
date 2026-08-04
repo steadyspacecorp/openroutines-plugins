@@ -13,6 +13,7 @@ Each top-level directory is one plugin containing a `PLUGIN.md` manifest and its
 - [`github-issues`](github-issues/) -- conservatively triages a GitHub repository's issues and prints a weekly issue-health digest.
 - [`slack-report`](slack-report/) -- reports the agent's intentions and progress to a Slack channel as a teammate-style update, via a minimal Slack app's bot token.
 - [`steady`](steady/) -- connects an agent to [Steady](https://runsteady.com) like a teammate: a daily check-in filed from the memory feed, and prompt replies to comments addressed to the agent.
+- [`tui-report`](tui-report/) -- prints an on-demand check-in to the operator's terminal after `openroutines sync`: the last 24 hours, the next 24, and whether anything waits on a human.
 
 ## Install
 
