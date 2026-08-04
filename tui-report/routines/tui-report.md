@@ -19,29 +19,28 @@ Events carry dates, not times, so the 24-hour window is a date window: an event 
 
 ## Compose
 
-Teammate-at-standup voice: plain words, outcomes first, related work grouped, one item per bullet. Plain text only -- your output lands in a terminal verbatim, so no markdown syntax, no ANSI escapes, no tables; when an event carried a URL worth following up, put it bare on its own continuation line under the bullet.
+Teammate-at-standup voice: plain words, outcomes first, related work grouped, one item per bullet. Your output lands in a live terminal verbatim, so no markdown syntax and no tables; when an event carried a URL worth following up, put it bare on its own continuation line under the bullet.
 
-Print the report in exactly this shape -- the rules are 56 `─` characters, the header takes the agent's `name:` and the `now:` timestamp from `./schedule.md`, and section titles are uppercase with a blank line on each side:
+The template below contains raw ANSI escape bytes (editors render them as `^[` or `\033`). Reproduce every escape sequence byte-for-byte exactly where the template puts it -- copy them, never write them out as `\033` or `\e` literals -- and leave your own content between them unstyled. The rules are 56 `─` characters, the header takes the agent's `name:` and the `now:` timestamp from `./schedule.md`, and each section title keeps a blank line on each side:
 
 ```
-────────────────────────────────────────────────────────
- <name> · <now>
-────────────────────────────────────────────────────────
+[2m────────────────────────────────────────────────────────[0m
+ [1m<name>[0m · <now>
 
- LAST 24 HOURS
-
-   • <item>
-   • <item>
-
- NEXT 24 HOURS
+ [1;36mLAST 24 HOURS[0m
 
    • <item>
+   • <item>
 
- BLOCKED
+ [1;36mNEXT 24 HOURS[0m
 
    • <item>
 
-────────────────────────────────────────────────────────
+ [1;31mBLOCKED[0m
+
+   • <item>
+
+[2m────────────────────────────────────────────────────────[0m
 ```
 
 - **LAST 24 HOURS** -- the in-window events, compressed. NO-OP events collapse into one trailing bullet ("also checked X and Y; nothing needed doing") or drop entirely when there are real outcomes. No in-window events at all: one bullet saying the agent was quiet, and since when.

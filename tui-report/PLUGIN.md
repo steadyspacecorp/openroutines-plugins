@@ -11,6 +11,8 @@ An on-demand check-in for the operator's own terminal. Run it locally after `ope
 
 - **tui-report** -- reads `memory/events.md`, `memory/tasks.md`, and the run's `schedule.md`, and prints a three-section check-in: last 24 hours, next 24 hours, blocked. It ships inactive and stays that way; the scheduler never fires it -- it exists to be run by hand.
 
+The report is lightly styled for the terminal: bold header, colored section titles, dim rules. The styling is ANSI escape sequences embedded as raw bytes in the routine's output template (they render as `^[` in editors reviewing the file), which the model transcribes into its output and the run echo passes through verbatim. The framework does nothing special -- which also means the escapes travel if you redirect the output to a file; this routine is for a live terminal.
+
 Unlike the reporting consumers, this routine keeps no cursor over the memory feed. It reports a time window, not "everything since last report", so running it twice in a row shows the same picture, and it never affects what slack-report, discord-report, or the Steady check-in will deliver.
 
 ## Using it
