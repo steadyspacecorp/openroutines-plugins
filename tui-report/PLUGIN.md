@@ -10,7 +10,7 @@ An on-demand check-in for the operator's own terminal. Run it locally after `ope
 ## What you get
 
 - **tui-report** (routine) -- reads `memory/events.md`, `memory/tasks.md`, and the run's `schedule.md`, and prints a three-section check-in: last 24 hours, next 24 hours, blocked. It ships inactive and stays that way; the scheduler never fires it -- it exists to be run by hand.
-- **bin/tui-report** (operator script) -- the way you actually run it: wraps the invocation (quiet log level, `--no-memory`) and colorizes the report's landmark lines when stdout is a TTY, plain when piped. Installs non-executable; review it, then `chmod +x plugins/tui-report/bin/tui-report`. Plugin updates reset it to non-executable -- re-review, re-chmod.
+- **bin/tui-report** (operator script) -- the way you actually run it: wraps the invocation (quiet log level, `--no-memory`) and colorizes the report's landmark lines when stdout is a TTY, plain when piped. It installs ready to run at `plugins/tui-report/bin/tui-report`; routines never see it.
 
 Unlike the reporting consumers, this routine keeps no cursor over the memory feed. It reports a time window, not "everything since last report", so running it twice in a row shows the same picture, and it never affects what slack-report, discord-report, or the Steady check-in will deliver.
 
@@ -32,5 +32,4 @@ The report covers what the synced memory covers: run `openroutines sync` first o
 ## After installing
 
 1. `openroutines check`, review the diff -- the script included -- and commit.
-2. `chmod +x plugins/tui-report/bin/tui-report` -- the framework installs operator scripts non-executable; making it runnable is your call, after reading it.
-3. Leave the routine inactive -- activating it would have the deployed agent print a report into its container logs on a schedule, which is not what this plugin is for.
+2. Leave the routine inactive -- activating it would have the deployed agent print a report into its container logs on a schedule, which is not what this plugin is for.

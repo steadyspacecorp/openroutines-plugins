@@ -13,7 +13,7 @@ Points an agent's reporting at a Discord channel. The routine is a memory-feed c
 ## What you get
 
 - **discord-report** -- consumes the memory change feed and posts a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no post -- the channel never gets a "nothing to report" message.
-- **discord-verify** -- a manual-only wiring check: run `plugins/discord-report/bin/discord-verify` after setup and it confirms the webhook (a bare GET, no post) then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. The `bin/discord-verify` operator script carries the right invocation (quiet diagnostics, `--no-memory` so a local run leaves the memory worktree untouched); it installs non-executable -- review, then `chmod +x`.
+- **discord-verify** -- a manual-only wiring check: run `plugins/discord-report/bin/discord-verify` after setup and it confirms the webhook (a bare GET, no post) then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. The `bin/discord-verify` operator script carries the right invocation (quiet diagnostics, `--no-memory` so a local run leaves the memory worktree untouched); it installs ready to run.
 - **discord-post** skill -- how to format and send the message: content plus one embed, the `?wait=true` delivery check, structural mention suppression, no retries past one.
 
 Unlike Slack, Discord's channel webhooks are a first-class, supported feature, so this plugin gets the narrowest possible design: the URL both authenticates and addresses one channel, post-only. One credential, no variables, no app to create.
@@ -22,7 +22,7 @@ Unlike Slack, Discord's channel webhooks are a first-class, supported feature, s
 
 1. In the target channel: Settings → Integrations → Webhooks → New Webhook. Name it after your agent (that's the poster's display name), then copy the URL.
 2. `openroutines credentials set discord_webhook_url`
-3. `chmod +x plugins/discord-report/bin/discord-verify` (after reading it), then `plugins/discord-report/bin/discord-verify` -- confirms the webhook and posts one labeled test message through the real wiring.
+3. `plugins/discord-report/bin/discord-verify` -- confirms the webhook and posts one labeled test message through the real wiring.
 4. Adjust the schedule, then `openroutines check`, review the diff, commit.
 
 The script's `--no-memory` discards memory settlement only; it does not suppress Discord posts or withhold credentials. `openroutines check` is the non-acting validation path.

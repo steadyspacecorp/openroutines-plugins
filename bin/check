@@ -52,8 +52,8 @@ for dir in */; do
   [[ "$name" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "$p: name '$name' is not bare lowercase-hyphen"
   printf '%s\n' "$fm" | grep -q '^description:[[:space:]]*[^[:space:]]' || err "$p: PLUGIN.md missing description"
 
-  # Payload is limited to PLUGIN.md, routines/, skills/, and memory/ledgers/.
-  extra="$(find "$p" -mindepth 1 -maxdepth 1 ! -name PLUGIN.md ! -name routines ! -name skills ! -name memory)"
+  # Payload is limited to PLUGIN.md, routines/, skills/, bin/, and memory/ledgers/.
+  extra="$(find "$p" -mindepth 1 -maxdepth 1 ! -name PLUGIN.md ! -name routines ! -name skills ! -name bin ! -name memory)"
   [[ -z "$extra" ]] || err "$p: unexpected payload: $(echo "$extra" | tr '\n' ' ')"
   if [[ -d "$p/memory" ]]; then
     extra="$(find "$p/memory" -mindepth 1 -maxdepth 1 ! -name ledgers
@@ -91,6 +91,22 @@ for dir in */; do
     done
   fi
 
+  # Operator scripts are flat lowercase-hyphen files, executable, with a
+  # shebang -- they install ready to run.
+  scripts=0
+  if [[ -d "$p/bin" ]]; then
+    extra="$(find "$p/bin" -mindepth 1 ! \( -type f -mindepth 1 -maxdepth 1 \))"
+    [[ -z "$extra" ]] || err "$p: bin/ must hold only flat scripts: $(echo "$extra" | tr '\n' ' ')"
+    for b in "$p"/bin/*; do
+      [[ -f "$b" ]] || continue
+      scripts=$((scripts + 1))
+      bname="$(basename "$b")"
+      [[ "$bname" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "$p: bin/$bname is not bare lowercase-hyphen"
+      [[ -x "$b" ]] || err "$p: bin/$bname is not executable"
+      [[ "$(head -c 2 "$b")" == "#!" ]] || err "$p: bin/$bname has no shebang"
+    done
+  fi
+
   # Every credential a routine uses must be declared in PLUGIN.md.
   creds="$(printf '%s\n' "$fm" | awk '/^credentials:/{c=1; next} c && /^[^ ]/{c=0} c && match($0, /^  [A-Za-z0-9_]+:/){s=$1; sub(/:$/,"",s); print s}')"
   for r in "$p"/routines/*.md; do
@@ -105,7 +121,7 @@ for dir in */; do
     done
   done
 
-  [[ "$fail" -eq "$before" ]] && ok "$p ($routines routines, $skills skills)"
+  [[ "$fail" -eq "$before" ]] && ok "$p ($routines routines, $skills skills, $scripts scripts)"
 done
 
 if [[ "$fail" -ne 0 ]]; then
