@@ -1,8 +1,9 @@
 #!/bin/sh
-# Print the agent's check-in in the terminal: last 24 hours, next 24,
-# blocked. Colorizes the report's landmark lines when stdout is a TTY;
-# plain when piped or redirected. Run from the agent repository, after
-# `openroutines sync`.
+# Sync the agent's latest memory, then print its check-in in the
+# terminal: last 24 hours, next 24, blocked. Colorizes the report's
+# landmark lines when stdout is a TTY; plain when piped or redirected.
+# Run from the agent repository.
+openroutines sync || exit
 if [ -t 1 ]; then
   esc=$(printf '\033')
   OPENROUTINES_LOG_LEVEL=warn openroutines routines run tui-report --no-memory | sed \

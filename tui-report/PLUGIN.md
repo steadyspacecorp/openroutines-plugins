@@ -5,21 +5,22 @@ description: Print an async check-in to the terminal, on demand -- what the agen
 
 # tui-report
 
-An on-demand check-in for the operator's own terminal. Run it locally after `openroutines sync` and it prints what the agent did in the last 24 hours, what it will do in the next 24, and whether anything waits on a human -- the same standup shape the reporting plugins post to Slack or Steady, but read straight off the synced memory, with no destination and no credentials.
+An on-demand check-in for the operator's own terminal. Run it locally and it syncs the agent's latest memory, then prints what the agent did in the last 24 hours, what it will do in the next 24, and whether anything waits on a human -- the same standup shape the reporting plugins post to Slack or Steady, but read straight off the synced memory, with no destination and no credentials.
 
 ## What you get
 
 - **tui-report** (routine) -- reads `memory/events.md`, `memory/tasks.md`, and the run's `schedule.md`, and prints a three-section check-in: last 24 hours, next 24 hours, blocked. It ships inactive and stays that way; the scheduler never fires it -- it exists to be run by hand.
-- **bin/tui-report** (operator script) -- the way you actually run it: wraps the invocation (quiet log level, `--no-memory`) and colorizes the report's landmark lines when stdout is a TTY, plain when piped. It installs ready to run at `plugins/tui-report/bin/tui-report`; routines never see it.
+- **bin/tui-report** (operator script) -- the way you actually run it: syncs memory first, wraps the invocation (quiet log level, `--no-memory`), and colorizes the report's landmark lines when stdout is a TTY, plain when piped. It installs ready to run at `plugins/tui-report/bin/tui-report`; routines never see it.
 
 Unlike the reporting consumers, this routine keeps no cursor over the memory feed. It reports a time window, not "everything since last report", so running it twice in a row shows the same picture, and it never affects what slack-report, discord-report, or the Steady check-in will deliver.
 
 ## Using it
 
 ```bash
-openroutines sync
 plugins/tui-report/bin/tui-report
 ```
+
+The script begins with `openroutines sync`, so the report always reads the agent's latest pushed memory; a sync refusal (a conflict, a rewritten branch) stops the report rather than printing a stale picture.
 
 The routine prints plain text in a fixed shape -- rules of `─` characters, a name-and-timestamp header, three uppercase section titles -- and the script colorizes those landmark lines at display time (cyan sections, red BLOCKED, dim rules; works with macOS/BSD sed and GNU sed). Color is a display decision the script makes, not something the model has to get right, so redirected output stays clean and the run's trailer and any surviving log lines pass through unchanged.
 
@@ -27,7 +28,7 @@ The script sets `OPENROUTINES_LOG_LEVEL=warn`, which is what keeps the terminal 
 
 It also passes `--no-memory`, always. The routine itself writes nothing, but a manual run otherwise settles its run record into the local memory worktree -- and local commits on the `memory` branch diverge from what the deployed agent pushes, which the next `openroutines sync` will refuse to reconcile. `--no-memory` keeps the local checkout a pure reader.
 
-The report covers what the synced memory covers: run `openroutines sync` first or you are reading the picture as of your last sync. No credentials or MCP servers are needed beyond the model provider key every local run already uses.
+No credentials or MCP servers are needed beyond the model provider key every local run already uses.
 
 ## After installing
 
