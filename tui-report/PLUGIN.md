@@ -11,8 +11,6 @@ An on-demand check-in for the operator's own terminal. Run it locally after `ope
 
 - **tui-report** -- reads `memory/events.md`, `memory/tasks.md`, and the run's `schedule.md`, and prints a three-section check-in: last 24 hours, next 24 hours, blocked. It ships inactive and stays that way; the scheduler never fires it -- it exists to be run by hand.
 
-The report is lightly styled for the terminal: bold header, colored section titles, dim rules. The styling is ANSI escape sequences embedded as raw bytes in the routine's output template (they render as `^[` in editors reviewing the file), which the model transcribes into its output and the run echo passes through verbatim. The framework does nothing special -- which also means the escapes travel if you redirect the output to a file; this routine is for a live terminal.
-
 Unlike the reporting consumers, this routine keeps no cursor over the memory feed. It reports a time window, not "everything since last report", so running it twice in a row shows the same picture, and it never affects what slack-report, discord-report, or the Steady check-in will deliver.
 
 ## Using it
@@ -21,6 +19,20 @@ Unlike the reporting consumers, this routine keeps no cursor over the memory fee
 openroutines sync
 OPENROUTINES_LOG_LEVEL=warn openroutines routines run tui-report --no-memory
 ```
+
+The routine prints plain text in a fixed shape: rules of `─` characters, a name-and-timestamp header, and three uppercase section titles. Because the shape is fixed, color is a display decision your shell makes, not something the model has to get right -- pipe through the small sed below (works with macOS/BSD sed and GNU sed) or wrap it in a function or alias:
+
+```bash
+tui-report() {
+  OPENROUTINES_LOG_LEVEL=warn openroutines routines run tui-report --no-memory | sed \
+    -e $'s/^\\( *\\)LAST 24 HOURS$/\\1\e[1;36mLAST 24 HOURS\e[0m/' \
+    -e $'s/^\\( *\\)NEXT 24 HOURS$/\\1\e[1;36mNEXT 24 HOURS\e[0m/' \
+    -e $'s/^\\( *\\)BLOCKED$/\\1\e[1;31mBLOCKED\e[0m/' \
+    -e $'s/^──*$/\e[2m&\e[0m/'
+}
+```
+
+Bare output stays clean for redirection; the colorizer touches only the report's own landmark lines, so the run's trailer and any surviving log lines pass through unchanged.
 
 `OPENROUTINES_LOG_LEVEL=warn` is what keeps the terminal readable: a run's diagnostic log (opencode's INFO stream, passed through line by line) shares the terminal with the echoed report, and warn silences it at the source while still surfacing anything degraded or failing. The report itself is not log lines and prints at any level.
 
