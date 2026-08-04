@@ -17,8 +17,10 @@ Unlike the reporting consumers, this routine keeps no cursor over the memory fee
 
 ```bash
 openroutines sync
-openroutines routines run tui-report --no-memory
+OPENROUTINES_LOG_LEVEL=warn openroutines routines run tui-report --no-memory
 ```
+
+`OPENROUTINES_LOG_LEVEL=warn` is what keeps the terminal readable: a run's diagnostic log (opencode's INFO stream, passed through line by line) shares the terminal with the echoed report, and warn silences it at the source while still surfacing anything degraded or failing. The report itself is not log lines and prints at any level.
 
 Always pass `--no-memory`. The routine itself writes nothing, but a manual run otherwise settles its run record into the local memory worktree -- and local commits on the `memory` branch diverge from what the deployed agent pushes, which the next `openroutines sync` will refuse to reconcile. `--no-memory` keeps the local checkout a pure reader.
 
