@@ -24,7 +24,7 @@ on its work, and replies to comments addressed to it.
   comments addressed to it, turns action requests into tracked tasks,
   and keeps its memory current with teammates' work and the goals the
   agent is involved in.
-- **steady-verify** -- a manual-only wiring check that creates one clearly labeled use activity through Steady's MCP server. It ships inactive and stays that way; the scheduler never fires it.
+- **steady-verify** -- a manual-only wiring check that creates one clearly labeled use activity through Steady's MCP server. It ships inactive and stays that way; the scheduler never fires it. The `bin/steady-verify` operator script carries the right invocation (quiet diagnostics, `--no-memory` so a local run leaves the memory worktree untouched); it installs non-executable -- review, then `chmod +x`.
 
 ## After installing
 
@@ -32,12 +32,12 @@ on its work, and replies to comments addressed to it.
    token for the agent's own Steady account (Settings → Agents).
 2. Accept the MCP server definition when the install offers it (or paste
    the printed snippet into opencode.json).
-3. `openroutines routines run steady-verify` -- creates one labeled use activity through the real MCP wiring so you can confirm it in Steady.
+3. `chmod +x plugins/steady/bin/steady-verify` (after reading it), then `plugins/steady/bin/steady-verify` -- creates one labeled use activity through the real MCP wiring so you can confirm it in Steady.
 4. Adjust the schedules to your workday; both active routines assume the
    agent's timezone.
 5. `openroutines check`, review the diff, commit, and activate.
 
-`steady-verify` performs a real external write. `--no-memory` does not suppress that activity or withhold credentials; `openroutines check` is the non-acting validation path.
+`steady-verify` performs a real external write. The script's `--no-memory` does not suppress that activity or withhold credentials; `openroutines check` is the non-acting validation path.
 
 The check-in is a memory-feed consumer: it needs nothing beyond what
 your other routines already record. If the agent has no other routines

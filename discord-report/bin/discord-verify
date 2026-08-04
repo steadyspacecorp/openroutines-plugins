@@ -1,0 +1,5 @@
+#!/bin/sh
+# Run the discord-verify wiring check with the right manual-run invocation:
+# quiet diagnostics, and --no-memory so a local run leaves the memory
+# worktree untouched. The check still sends its labeled test message.
+exec env OPENROUTINES_LOG_LEVEL=warn openroutines routines run discord-verify --no-memory
