@@ -1,5 +1,0 @@
-#!/bin/sh
-# Run the slack-verify wiring check with the right manual-run invocation:
-# quiet diagnostics, and --no-memory so a local run leaves the memory
-# worktree untouched. The check still posts its labeled test message.
-exec env OPENROUTINES_LOG_LEVEL=warn openroutines routines run slack-verify --no-memory

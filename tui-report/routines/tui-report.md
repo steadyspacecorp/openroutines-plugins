@@ -24,7 +24,7 @@ Events carry dates, not times, so the 24-hour window is a date window: an event 
 
 Teammate-at-standup voice: plain words, outcomes first, related work grouped, one item per bullet. Plain text only -- your output lands in a terminal verbatim, so no markdown syntax, no ANSI escapes, no tables; when an event carried a URL worth following up, put it bare on its own continuation line under the bullet.
 
-Print the report in exactly this shape. The fence below delimits the template and is not part of the output -- never print the ``` lines. The rules are 56 `─` characters starting at column one, the header takes the agent's `name:` and the `now:` timestamp from `./schedule.md`, and section titles are uppercase, indented one space, with a blank line on each side (the display pipeline colors them by matching these lines exactly -- reproduce the indentation and rules byte-for-byte):
+Print the report in exactly this shape. The fence below delimits the template and is not part of the output -- never print the ``` lines. The rules are 56 `─` characters starting at column one, the header takes the agent's `name:` and the `now:` timestamp from `./schedule.md`, and section titles are uppercase, indented one space, with a blank line on each side -- reproduce the indentation and rules byte-for-byte:
 
 ```
 ────────────────────────────────────────────────────────
