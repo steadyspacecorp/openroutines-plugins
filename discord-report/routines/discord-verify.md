@@ -1,11 +1,14 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
 # Manual-only: ships inactive and stays inactive; the schedule exists to
 # satisfy check and never fires while the routine is parked. Run it with
 # `openroutines routines run discord-verify`.
 schedule: "0 12 * * 1-5"
 active: false
 timeout: 5m
-events: false
+teamwork: off
 skills: [discord-post]
 credentials: [discord_webhook_url]
 ---

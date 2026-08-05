@@ -16,7 +16,7 @@ The watching half of a knowledgebot: a routine that sweeps configured documentat
 
 ## What you get
 
-- **doc-watch** -- per repo, diffs the default branch against the last commit it recorded, summarizes meaningful changes into events (renames and typo-fixes collapse; structural and content changes get a line each with links), refreshes context.md with anything future runs should know, and advances its ledger watermark only after recording.
+- **github-doc-watch** -- per repo, diffs the default branch against the last commit it recorded, summarizes meaningful changes into events (renames and typo-fixes collapse; structural and content changes get a line each with links), refreshes context.md with anything future runs should know, and advances its ledger watermark only after recording.
 
 ## After installing
 

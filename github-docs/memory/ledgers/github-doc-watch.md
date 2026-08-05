@@ -1,4 +1,4 @@
-# doc-watch ledger
+# github-doc-watch ledger
 
 Working state: one watermark per watched repo -- the last default-branch
 commit this routine accounted for. Advance a watermark only after the

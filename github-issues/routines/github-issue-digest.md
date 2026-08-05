@@ -1,4 +1,7 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
 schedule: "0 14 * * 5"
 timeout: 20m
 active: true
@@ -6,9 +9,9 @@ skills:
   - github-issues
 credentials:
   - github_app_private_key
-events: false
+teamwork: off
 ---
-Produce a weekly issue-health digest for `$GITHUB_REPO` and print it to the container logs.
+Produce a weekly GitHub issue-health digest for `$GITHUB_REPO` and print it to the container logs.
 
 Use the github-issues skill in read-only mode. Compare the current open-issue set with issues created, closed, and meaningfully updated during the last seven days. Identify recurring themes with links to representative issues, issues inactive for at least `$STALE_AFTER_DAYS` days, likely duplicates that need a person's judgment, and concrete product or maintenance decisions blocking progress.
 

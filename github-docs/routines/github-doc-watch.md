@@ -1,4 +1,7 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
 schedule: "0 7-19/3 * * 1-5"
 # For near-real-time watching of a public repo, a trigger can wake this
 # routine when the default branch moves (conditional GET makes the poll
@@ -20,7 +23,7 @@ via $GITHUB_TOKEN. Most runs find nothing: record the NO-OP and end.
 
 ## Execution discipline
 
-Start with `memory/ledgers/doc-watch.md` and `$DOCS_REPOS`. Do not inspect
+Start with `memory/ledgers/github-doc-watch.md` and `$DOCS_REPOS`. Do not inspect
 environment variables, the schedule, other routines, or general memory
 before checking repository movement. Fetch changed-file metadata first;
 read file contents only when needed to understand a meaningful change,
@@ -30,7 +33,7 @@ gives a specific reason.
 
 ## Per repository
 
-Your ledger (memory/ledgers/doc-watch.md) holds a watermark per repo: the
+Your ledger (memory/ledgers/github-doc-watch.md) holds a watermark per repo: the
 last default-branch commit you accounted for.
 
 1. **Find the movement.** Compare the default branch head against the

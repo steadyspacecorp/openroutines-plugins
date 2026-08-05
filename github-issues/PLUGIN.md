@@ -20,8 +20,8 @@ Gives an agent a disciplined GitHub issue-steward workflow: keep new and changed
 
 ## What you get
 
-- **issue-triage** -- reviews issues changed since its last successful pass, searches for likely duplicates, applies only configured labels, asks focused follow-up questions when an issue is not actionable, and records its cursor and unresolved judgments in a private ledger.
-- **issue-digest** -- once a week, summarizes issue volume, recurring themes, stale work, and decisions that need a person. It reads GitHub directly; it does not consume the agent's memory feed, so adding it does not affect other reporting consumers.
+- **github-issue-triage** -- reviews issues changed since its last successful pass, searches for likely duplicates, applies only configured labels, asks focused follow-up questions when an issue is not actionable, and records its cursor and unresolved judgments in a private ledger.
+- **github-issue-digest** -- once a week, summarizes issue volume, recurring themes, stale work, and decisions that need a person. It reads GitHub directly; it does not consume the agent's memory feed, so adding it does not affect other reporting consumers.
 - **github-issues** skill -- a conservative `gh`-based workflow for querying, labeling, commenting, duplicate detection, and producing evidence-backed summaries.
 
 ## Required GitHub App
@@ -47,7 +47,7 @@ Install it on exactly the repository named by `github_repo`. OpenRoutines' `gith
 2. Set `github_repo`, `triage_labels`, and `stale_after_days` in the `variables:` map.
 3. `openroutines credentials set github_app_private_key`
 4. Adjust both schedules and review the policy in `skills/github-issues/SKILL.md`.
-5. Run `openroutines routines test issue-triage` and `openroutines routines test issue-digest`.
+5. Run `openroutines routines test github-issue-triage` and `openroutines routines test github-issue-digest`.
 6. Run `openroutines check`, review the complete diff, then activate the routines you want.
 
 The steward never closes issues, edits issue bodies, assigns people, or marks duplicates automatically. Those are higher-judgment actions left as explicit recommendations unless you deliberately change the vendored policy.

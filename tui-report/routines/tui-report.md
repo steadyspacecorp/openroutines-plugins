@@ -1,11 +1,15 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
+#
 # Manual-only: ships inactive and stays inactive; the schedule exists to
 # satisfy check and never fires while the routine is parked. Run it locally,
 # after `openroutines sync`, with the invocation in this plugin's PLUGIN.md.
 schedule: "0 9 * * 1-5"
 active: false
 timeout: 5m
-events: false
+teamwork: off
 ---
 
 Print an async check-in for the operator sitting at the terminal this run echoes to. The printed report is the whole deliverable: no external calls, no memory writes, no ledger. You hold no cursor over the memory feed -- you report a time window, not "everything since last report" -- so running twice in a row shows the same picture and consumes nothing.

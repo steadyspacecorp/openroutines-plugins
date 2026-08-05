@@ -1,4 +1,7 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
 schedule: "45 8,17 * * 1-5"
 trigger:
   poll: https://service.steady.space/api/v2/digest?category=comment&per_page=1
@@ -6,7 +9,7 @@ trigger:
   interval: 5m
   credential: steady_token
 timeout: 10m
-events: false
+teamwork: off
 mcp: [steady]
 credentials: [steady_token]
 ---

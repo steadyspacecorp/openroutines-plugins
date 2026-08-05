@@ -1,4 +1,7 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
 schedule: "15 * * * *"
 timeout: 20m
 active: true
@@ -6,9 +9,8 @@ skills:
   - github-issues
 credentials:
   - github_app_private_key
-events: true
 ---
-Triage issues changed in `$GITHUB_REPO` since the cursor in your private ledger.
+Triage GitHub issues changed in `$GITHUB_REPO` since the cursor in your private ledger.
 
 Use the github-issues skill and obey its authority boundaries. Validate the configured labels before acting. For each changed issue, gather the issue body, recent comments, current labels, and enough repository context to understand whether the report is actionable. Search open and closed issues for plausible duplicates before commenting or changing labels.
 

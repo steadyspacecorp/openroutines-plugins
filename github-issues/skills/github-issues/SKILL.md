@@ -88,7 +88,7 @@ In a dry run, narrate proposed writes without executing them.
 
 ## Ledger discipline
 
-The `issue-triage` ledger is compact working state:
+The `github-issue-triage` ledger is compact working state:
 
 - `covered_through`: the inclusive upper-bound timestamp of the last fully handled batch.
 - `issues`: only unresolved judgments or follow-ups, keyed by issue number, with the evidence already checked and the next condition to revisit.

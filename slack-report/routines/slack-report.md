@@ -1,8 +1,11 @@
 ---
+# Editing this vendored routine in place may create conflicts when its plugin
+# is updated. To override its behavior safely, copy it with the same filename
+# into your OpenRoutines agent's routines/ directory and edit that copy.
 schedule: "0 9,15 * * 1-5"
 timeout: 5m
 active: true
-events: false
+teamwork: off
 consumes: memory
 skills: [slack-post]
 credentials: [slack_bot_token]
