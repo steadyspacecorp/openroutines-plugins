@@ -98,6 +98,10 @@ name or @mention, never anonymized to "a customer". Task ids like
 - **blockers** — every Human-owned task the inbox shows as new or
   transferred, plus any task change naming a dependency it waits on.
   Nothing else — a wait that isn't a tracked ask isn't a blocker.
+  An ask lives here and only here: when the event that raised it also
+  did real work, previous keeps the work and points at the blocker
+  ("flagged it as a blocker"), never restating the ask; an event that
+  is nothing but the ask gets no previous bullet at all.
   Most days there are none: leave the field empty rather than writing
   that there is nothing. The inbox guarantees each ask is raised exactly
   once: consumed transitions never re-present, while the task stays
