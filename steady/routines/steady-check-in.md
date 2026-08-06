@@ -23,12 +23,16 @@ filed (submitting completes the item). No open item → stop without
 consuming. Never infer either answer from the check-in's content —
 check-ins are pre-generated, so empty or full proves nothing.
 
-If the gate passes, always file; a quiet day just gets a light previous.
+If the gate passes, file — unless the day holds no news at all: every
+new event a NO-OP (or none), and your window empty. "Nothing happened,
+nothing planned" is not a check-in; stop without consuming, and the
+NO-OPs roll into the next real one. News on either side files as
+usual.
 
 ## 2. Compose
 
-Write for teammates who can't see the machine. They don't have your
-inbox, your ledgers, or your task list — they have thirty seconds and a
+Write for teammates who can't see the machine. They don't have the
+changes, ledgers, or task list you do — they have thirty seconds and a
 feed of other people's updates. Everything below follows from that.
 
 Voice: a teammate at standup, not a status report generator — plain
@@ -46,7 +50,14 @@ link is expected derivation. People the events name stay named — full
 name or @mention, never anonymized to "a customer". Task ids like
 `task-20260721-2` are your own bookkeeping — name the ask, never the id.
 
-- **previous** — the inbox's new events, summarized into a good update.
+The fields divide the news, and each fact has one home: previous owns
+what happened, intentions own what's coming, blockers own asks waiting
+on a human. Say a fact in its home field and nowhere else — another
+field may point at it ("flagged it as a blocker"), never restate it. An
+event whose only content is an ask lives in blockers and gets no
+previous bullet.
+
+- **previous** — your new events, summarized into a good update.
   One bullet per event — what you swept, then what came of it — except
   events labeled NO-OP: drop those. If that leaves nothing, previous is
   a single line summarizing the NO-OPs. Anything beyond what the events
@@ -81,32 +92,27 @@ name or @mention, never anonymized to "a customer". Task ids like
   happened next rather than why it matters gets deleted, not shortened.
 
 - **intentions** — required; never blank. Intentions project the
-  schedule, not the task list: write one line per routine in
-  ./schedule.md's in-window table. Each line is the
-  routine's mission in one short, plain sentence — "Check recent PRs for
-  any needed doc updates", not its mechanics — with any open Agent-owned
-  tasks from memory/tasks.md attached to their routine's line. Open
+  schedule, not the task list: write one line per in-window routine.
+  Each line is the routine's mission in one short, plain sentence —
+  "Check recent PRs for any needed doc updates", not its mechanics —
+  with any open Agent-owned tasks attached to their routine's line. Open
   tasks neither add a routine to the window nor remove one: a task whose
   routine is out of window waits for that routine's fire day, and a task
   no routine covers gets transferred to Human-owned. Before submitting,
-  check the counts: intention lines == in-window rows, and every open
-  Agent-owned task accounted for.
+  check the counts: intention lines == in-window routines, and every
+  open Agent-owned task accounted for.
 
-  "Nothing is scheduled" is valid only when the in-window table is
-  genuinely empty (weekend or holiday ahead) — never shorthand for a
-  quiet or blocked day.
-- **blockers** — every Human-owned task the inbox shows as new or
+  "Nothing is scheduled" is valid only when your window is genuinely
+  empty (weekend or holiday ahead) — never shorthand for a quiet or
+  blocked day.
+- **blockers** — every Human-owned task your changes show as new or
   transferred, plus any task change naming a dependency it waits on.
   Nothing else — a wait that isn't a tracked ask isn't a blocker.
-  An ask lives here and only here: when the event that raised it also
-  did real work, previous keeps the work and points at the blocker
-  ("flagged it as a blocker"), never restating the ask; an event that
-  is nothing but the ask gets no previous bullet at all.
   Most days there are none: leave the field empty rather than writing
-  that there is nothing. The inbox guarantees each ask is raised exactly
-  once: consumed transitions never re-present, while the task stays
-  canonical in memory/tasks.md until a human settles it.
-- **previous_completed** — set true only when the inbox's events cover
+  that there is nothing. Each ask is raised exactly once: a consumed
+  transition never re-presents, while the task stays canonical until a
+  human settles it.
+- **previous_completed** — set true only when your new events cover
   every intention the ledger says you filed last time; otherwise omit
   the field. Leave mood blank.
 
@@ -123,6 +129,6 @@ replacing any earlier filed-intentions entry.
 
 ## 4. Consume
 
-A successful submission is this routine's delivery — consume the inbox.
-A failed submission or a closed gate delivered nothing: leave it
-unconsumed.
+A successful submission is this routine's delivery — consume the
+changes. A failed submission, a closed gate, or an all-quiet skip
+delivered nothing: leave them unconsumed.

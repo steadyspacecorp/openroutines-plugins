@@ -33,18 +33,16 @@ parent by date.
 
 ## 2. Answer comments
 
-A comment is handled when its id is in your ledger
-(memory/ledgers/steady-inbox.md) or a comment of yours on the same
-resource has a later timestamp (compare timestamps, not list
+A comment is handled when its id is in your ledger or a comment of
+yours on the same resource has a later timestamp (compare timestamps, not list
 position). Reply to every unhandled comment by someone else, no
 exceptions:
 
-- **Action request** → add an Agent-owned task to memory/tasks.md
-  (stable id; source: requester + resource); reply "on it," naming
-  when — the next fire of the routine whose domain covers it
-  (./schedule.md).
+- **Action request** → record an Agent-owned task (stable id; source:
+  requester + resource); reply "on it," naming when — the next fire of
+  the routine whose domain covers it, per the schedule.
 - **Question or feedback** → answer in-thread.
-- **Answer to a Human-owned task in memory/tasks.md** → resolve the
+- **Answer to a Human-owned task** → resolve the
   task in place: delete it if the human settled it, transfer it to
   Agent-owned if the ask became agent work, cancel it if declined;
   acknowledge briefly.
@@ -64,9 +62,9 @@ surfaced:
 
 - A human explicitly settled a Human-owned task (the ask itself, not
   agent work near the topic) → resolve it as in step 2.
-- A human's work covers an open Agent-owned task in memory/tasks.md →
-  mark it done ([x]), crediting them.
-- Refresh memory/context.md with in-flight or claimed work overlapping
+- A human's work covers an open Agent-owned task → mark it done
+  ([x]), crediting them.
+- Refresh your standing context with in-flight or claimed work overlapping
   your own lanes — the domains your routines cover: who, what, firm or
   tentative, date; drop entries older than about a week.
 - A goal entry → update its goal's line on the board (step 4) from the
@@ -77,10 +75,10 @@ Beyond these uses, don't act on teammates' content.
 
 ## 4. Groom
 
-- Mark open Agent-owned tasks done when memory/events.md or your
+- Mark open Agent-owned tasks done when your recorded events or your
   check-ins show they happened; merge duplicates; delete done tasks
   after about a week.
-- A Human-owned task leaves memory/tasks.md only two ways: a human
+- A Human-owned task is settled only two ways: a human
   explicitly settled the ask, or about three weeks unanswered → quiet
   cancel. When in doubt, leave it.
 - The goal board — a ledger section listing the open goals you're
