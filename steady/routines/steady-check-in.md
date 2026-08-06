@@ -4,8 +4,7 @@
 # into your OpenRoutines agent's routines/ directory and edit that copy.
 schedule: "0 7,8 * * 1-5"
 timeout: 10m
-teamwork: off
-consumes: memory
+reports: true
 mcp: [steady]
 credentials: [steady_token]
 ---
