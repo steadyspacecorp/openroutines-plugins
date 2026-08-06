@@ -8,7 +8,7 @@ credentials:
 
 # discord-report
 
-Points an agent's reporting at a Discord channel. The routine is a memory-feed consumer: twice a workday it turns everything the agent recorded since its last report into one short, human update and posts it through a channel webhook.
+Points an agent's reporting at a Discord channel. The routine is a memory-feed consumer: each workday morning it turns everything the agent recorded since its last report into one short, human update and posts it through a channel webhook.
 
 ## What you get
 

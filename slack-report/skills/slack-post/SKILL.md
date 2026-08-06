@@ -39,16 +39,17 @@ Do not retry more than once in a run.
 ## Payload shape
 
 Always include the channel, a `text` fallback (used by notifications and
-screen readers), then `blocks` for structure:
+screen readers -- lead with the day's headline outcome, never a generic
+label), then `blocks` for structure:
 
 ```json
 {
   "channel": "$SLACK_CHANNEL",
-  "text": "Agent report: 3 updates, 1 needs a human",
+  "text": "Docs caught up for the 2.1 release -- one ask for the team",
   "blocks": [
-    { "type": "header", "text": { "type": "plain_text", "text": "Agent report" } },
-    { "type": "section", "text": { "type": "mrkdwn", "text": "*What happened*\n• Shipped the doc updates for the 2.1 release (<https://example.com/pr/42|PR #42>)" } },
-    { "type": "section", "text": { "type": "mrkdwn", "text": "*Needs a human*\n• `task-20260725-1` Renew the staging TLS cert" } }
+    { "type": "header", "text": { "type": "plain_text", "text": "Daily check-in" } },
+    { "type": "section", "text": { "type": "mrkdwn", "text": "*What happened*\n• Wrote the missing help doc for the <https://example.com/pr/42|CSV export page> that shipped with 2.1" } },
+    { "type": "section", "text": { "type": "mrkdwn", "text": "*Needs a human*\n• Renew the staging TLS cert -- it expires Friday" } }
   ]
 }
 ```

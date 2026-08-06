@@ -2,7 +2,7 @@
 # Editing this vendored routine in place may create conflicts when its plugin
 # is updated. To override its behavior safely, copy it with the same filename
 # into your OpenRoutines agent's routines/ directory and edit that copy.
-schedule: "0 9,15 * * 1-5"
+schedule: "0 7 * * 1-5"
 timeout: 5m
 active: true
 teamwork: off
@@ -21,8 +21,8 @@ formatting and sending.
 Your first and only initial action is to read `inbox.md`. If it says
 `No pending changes`, stop immediately: call no other tools, read no
 memory files or schedule, and do not look for a ledger. Otherwise, use
-only the pending inbox changes and the specific current-state files
-needed to compose the report.
+only the pending inbox changes, ./schedule.md, and the specific
+current-state files needed to compose the report.
 
 ## 1. Gate
 
@@ -32,20 +32,45 @@ a quiet channel is the feature.
 
 ## 2. Compose
 
-One message, teammate voice, built from the inbox (use the memory files
-for current state, not to re-tell history the inbox already covers):
+One message, written for teammates who can't see the machine: they
+don't have your inbox, your ledgers, or your task list -- they have
+thirty seconds and a scrolling channel. A teammate at standup, not a
+status report generator: plain words, contractions welcome; one idea
+per bullet, one to three short sentences, the result never buried
+behind its setup. Say what happened and what it means for the team, not
+the machinery underneath: "the CSV export page shipped without a help
+doc, so I wrote one" beats "identified an uncovered surface and emitted
+a documentation PR".
 
-- **What happened** -- the inbox's new events, grouped and compressed:
-  outcomes first, related work merged into one line, links on meaningful
-  phrases where the event carried one. NO-OP events (checked, found
-  nothing) collapse into a single trailing clause, or drop entirely when
-  there are real outcomes.
-- **Needs a human** -- any Human-owned task the inbox shows as new or
-  transferred, each with its stable id so replies can reference it.
-- **Task changes** -- completed or cancelled tasks, one line each.
+Compression drops, it doesn't condense evenly. The scope, the outcome,
+and the judgment call survive; the machine talking about itself dies --
+shas, ids, file paths, milestone chains, time estimates, state
+transitions, and the blow-by-blow of what you edited and pushed. A line
+that says what happened next rather than why it matters gets deleted,
+not shortened.
 
-Keep the whole message under a couple dozen lines. Skip any section with
-nothing in it.
+Every reference carries its own context: a PR, issue, or page gets a
+link anchored on the words that describe it -- never a naked URL, never
+a bare filename in code formatting. People the events name stay named.
+Task ids are your own bookkeeping -- name the ask, never the id.
+
+Sections, built from the inbox (memory files supply current state,
+never history the inbox already covers), skipping any with nothing in
+it:
+
+- **What happened** -- the inbox's new events plus completed or
+  cancelled tasks, one bullet per outcome, related work merged. NO-OP
+  events (checked, found nothing) collapse into a single trailing
+  clause, or drop entirely when there are real outcomes.
+- **What's next** -- one plain line per routine in ./schedule.md's
+  in-window table: its mission, not its mechanics, with open Agent-owned
+  tasks attached to their routine's line.
+- **Needs a human** -- every Human-owned task the inbox shows as new or
+  transferred, and any task change naming a dependency it waits on,
+  worded as an ask a teammate could act on. Most days there are none:
+  skip the section rather than saying so.
+
+Keep the whole message under a dozen short lines.
 
 ## 3. Deliver, then consume
 

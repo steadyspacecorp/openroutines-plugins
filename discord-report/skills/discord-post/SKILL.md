@@ -38,16 +38,18 @@ Do not retry more than once in a run.
 
 ## Payload shape
 
-A one-line summary in `content`, the structured digest in one embed's
-`description`, and mention suppression hardcoded:
+A one-line summary in `content` -- it is the notification preview, so
+lead with the day's headline outcome, never a generic label -- the
+structured digest in one embed's `description`, and mention suppression
+hardcoded:
 
 ```json
 {
-  "content": "Agent report: 3 updates, 1 needs a human",
+  "content": "Docs caught up for the 2.1 release -- one ask for the team",
   "embeds": [
     {
-      "title": "Agent report",
-      "description": "**What happened**\n- Shipped the doc updates for the 2.1 release ([PR #42](https://example.com/pr/42))\n\n**Needs a human**\n- `task-20260725-1` Renew the staging TLS cert",
+      "title": "Daily check-in",
+      "description": "**What happened**\n- Wrote the missing help doc for the [CSV export page](https://example.com/pr/42) that shipped with 2.1\n\n**Needs a human**\n- Renew the staging TLS cert -- it expires Friday",
       "color": 5793266
     }
   ],

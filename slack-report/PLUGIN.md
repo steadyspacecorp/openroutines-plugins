@@ -11,7 +11,7 @@ variables:
 
 # slack-report
 
-Points an agent's reporting at a Slack channel. The routine is a memory-feed consumer: twice a workday it turns everything the agent recorded since its last report into one short, human update and posts it with `chat.postMessage`.
+Points an agent's reporting at a Slack channel. The routine is a memory-feed consumer: each workday morning it turns everything the agent recorded since its last report into one short, human update and posts it with `chat.postMessage`.
 
 ## What you get
 
