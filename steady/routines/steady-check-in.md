@@ -2,7 +2,7 @@
 # Editing this vendored routine in place may create conflicts when its plugin
 # is updated. To override its behavior safely, copy it with the same filename
 # into your OpenRoutines agent's routines/ directory and edit that copy.
-schedule: "0 7,8 * * 1-5"
+schedule: "0 7 * * 1-5"
 timeout: 10m
 reports: true
 mcp: [steady]
