@@ -15,7 +15,7 @@ credentials: [slack_bot_token]
 
 Verify the Slack wiring end to end, with real credentials. This routine
 posts exactly one clearly labeled test message and nothing else; it does
-not read memory, consume anything, or retry beyond the skill's rules.
+not read knowledge, consume anything, or retry beyond the skill's rules.
 
 1. **Check the token.** `curl -sS -H "Authorization: Bearer
    $SLACK_BOT_TOKEN" https://slack.com/api/auth.test` and report the

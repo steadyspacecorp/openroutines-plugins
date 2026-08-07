@@ -59,7 +59,7 @@ hardcoded:
 
 Always include `"allowed_mentions": { "parse": [] }`: it makes
 `@everyone`, `@here`, and user pings inert no matter what text ends up
-in the message -- the report is composed from memory content, so the
+in the message -- the report is composed from knowledge content, so the
 no-ping rule is enforced by the payload, not by care.
 
 Discord messages use ordinary markdown -- `[text](url)` links, `**bold**`,

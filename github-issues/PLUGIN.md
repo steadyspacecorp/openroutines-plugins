@@ -21,7 +21,7 @@ Gives an agent a disciplined GitHub issue-steward workflow: keep new and changed
 ## What you get
 
 - **github-issue-triage** -- reviews issues changed since its last successful pass, searches for likely duplicates, applies only configured labels, asks focused follow-up questions when an issue is not actionable, and records its cursor and unresolved judgments in a private ledger.
-- **github-issue-digest** -- once a week, summarizes issue volume, recurring themes, stale work, and decisions that need a person. It reads GitHub directly; it does not consume the agent's memory feed, so adding it does not affect other reporting consumers.
+- **github-issue-digest** -- once a week, summarizes issue volume, recurring themes, stale work, and decisions that need a person. It reads GitHub directly; it does not consume the agent's knowledge feed, so adding it does not affect other reporting consumers.
 - **github-issues** skill -- a conservative `gh`-based workflow for querying, labeling, commenting, duplicate detection, and producing evidence-backed summaries.
 
 ## Required GitHub App

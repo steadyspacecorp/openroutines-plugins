@@ -52,13 +52,13 @@ for dir in */; do
   [[ "$name" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "$p: name '$name' is not bare lowercase-hyphen"
   printf '%s\n' "$fm" | grep -q '^description:[[:space:]]*[^[:space:]]' || err "$p: PLUGIN.md missing description"
 
-  # Payload is limited to PLUGIN.md, routines/, skills/, and memory/ledgers/.
-  extra="$(find "$p" -mindepth 1 -maxdepth 1 ! -name PLUGIN.md ! -name routines ! -name skills ! -name memory)"
+  # Payload is limited to PLUGIN.md, routines/, skills/, and knowledge/ledgers/.
+  extra="$(find "$p" -mindepth 1 -maxdepth 1 ! -name PLUGIN.md ! -name routines ! -name skills ! -name knowledge)"
   [[ -z "$extra" ]] || err "$p: unexpected payload: $(echo "$extra" | tr '\n' ' ')"
-  if [[ -d "$p/memory" ]]; then
-    extra="$(find "$p/memory" -mindepth 1 -maxdepth 1 ! -name ledgers
-             [[ -d "$p/memory/ledgers" ]] && find "$p/memory/ledgers" -mindepth 1 ! \( -type f -name '*.md' \))"
-    [[ -z "$extra" ]] || err "$p: memory/ may contain only ledgers/*.md: $(echo "$extra" | tr '\n' ' ')"
+  if [[ -d "$p/knowledge" ]]; then
+    extra="$(find "$p/knowledge" -mindepth 1 -maxdepth 1 ! -name ledgers
+             [[ -d "$p/knowledge/ledgers" ]] && find "$p/knowledge/ledgers" -mindepth 1 ! \( -type f -name '*.md' \))"
+    [[ -z "$extra" ]] || err "$p: knowledge/ may contain only ledgers/*.md: $(echo "$extra" | tr '\n' ' ')"
   fi
 
   # Routines are flat Markdown files with frontmatter.

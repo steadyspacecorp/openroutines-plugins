@@ -12,7 +12,7 @@ variables:
 
 # github-docs
 
-The watching half of a knowledgebot: a routine that sweeps configured documentation repositories, records what changed since its last look, and keeps memory current on what those changes affect. What your agent *does* with that awareness -- updating a knowledge base, answering questions, flagging drift against another source -- is the routine you write next; this plugin keeps the raw material fresh.
+The watching half of a knowledgebot: a routine that sweeps configured documentation repositories, records what changed since its last look, and keeps knowledge current on what those changes affect. What your agent *does* with that awareness -- updating a knowledge base, answering questions, flagging drift against another source -- is the routine you write next; this plugin keeps the raw material fresh.
 
 ## What you get
 

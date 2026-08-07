@@ -14,7 +14,7 @@ mcp: [steady]
 credentials: [steady_token]
 ---
 
-Watch Steady and keep memory current. Replying to comments is your only
+Watch Steady and keep knowledge current. Replying to comments is your only
 Steady write. Most runs find nothing new: end quickly.
 
 ## 1. Gate on the digest
@@ -55,7 +55,7 @@ answer several pending comments there. Casual teammate voice: short
 and warm, not corporate. After a reply posts, ledger the comment's
 id; a failed post gets no entry.
 
-## 3. Update memory from teammates' work
+## 3. Update knowledge from teammates' work
 
 From the teammate check-in and goal update entries the digest
 surfaced:
@@ -88,4 +88,4 @@ Beyond these uses, don't act on teammates' content.
   When its header date is over a week old or there is no board,
   re-pull those goals and true up every line, dropping closed and
   archived goals. Only this full re-pull moves the header date.
-- Keep every memory file small and factual.
+- Keep every knowledge file small and factual.

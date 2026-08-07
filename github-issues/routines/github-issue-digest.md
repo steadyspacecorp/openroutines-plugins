@@ -17,4 +17,4 @@ Use the github-issues skill in read-only mode. Compare the current open-issue se
 
 Write for a teammate who needs signal, not an inventory. Include counts only when they clarify a trend. Name every issue by number, title, and URL so each claim can be checked. Distinguish observed facts from your inference. If the week was quiet, say so plainly and mention only material exceptions.
 
-Do not modify GitHub, memory, or the triage ledger. This routine reports the repository's current state directly and has no delivery destination beyond its logs until the agent owner deliberately adds one.
+Do not modify GitHub, knowledge, or the triage ledger. This routine reports the repository's current state directly and has no delivery destination beyond its logs until the agent owner deliberately adds one.

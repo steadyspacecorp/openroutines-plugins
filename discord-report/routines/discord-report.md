@@ -11,7 +11,7 @@ credentials: [discord_webhook_url]
 ---
 
 Report the agent's recent activity to Discord. Your input is
-./changes.md, the memory changes since the last report; your output is at
+./changes.md, the knowledge changes since the last report; your output is at
 most one webhook post. The discord-post skill covers formatting and
 sending.
 
@@ -19,7 +19,7 @@ sending.
 
 Your first and only initial action is to read `./changes.md`. If it says
 `No pending changes`, stop immediately: call no other tools, read no
-memory files or schedule, and do not look for a ledger. Otherwise, use
+knowledge files or schedule, and do not look for a ledger. Otherwise, use
 only the pending changes, ./schedule.md, and the specific
 current-state files needed to compose the report.
 

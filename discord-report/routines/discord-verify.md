@@ -15,14 +15,14 @@ credentials: [discord_webhook_url]
 
 Verify the Discord wiring end to end, with real credentials. This
 routine posts exactly one clearly labeled test message and nothing else;
-it does not read memory, consume anything, or retry beyond the skill's
+it does not read knowledge, consume anything, or retry beyond the skill's
 rules.
 
 ## Execution discipline
 
 Do exactly the verification below: load `discord-post`, GET the webhook,
 then, only when that succeeds, POST one test message. Do not inspect or
-print environment variables, schedules, routines, memory, or unrelated
+print environment variables, schedules, routines, knowledge, or unrelated
 files; never echo the webhook URL. Do not narrate between actions. Keep
 the final result to one short sentence naming the webhook, channel id,
 and delivered message id, or the single failure and its remedy.
