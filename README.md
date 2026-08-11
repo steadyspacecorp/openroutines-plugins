@@ -9,7 +9,7 @@ Each top-level directory is one plugin containing a `PLUGIN.md` manifest and its
 ## Available plugins
 
 - [`discord-report`](discord-report/) -- reports the agent's intentions and progress to a Discord channel as a teammate-style update, via a channel webhook.
-- [`github-docs`](github-docs/) -- watches documentation repositories for changes and keeps a running account of what changed and what it affects -- the base of a knowledgebot.
+- [`github-docs`](github-docs/) -- watches documentation repositories for changes, keeps a running account of what changed and what it affects, and flags docs filed in the wrong folder or carrying the wrong tags -- the base of a knowledgebot.
 - [`github-issues`](github-issues/) -- conservatively triages a GitHub repository's issues and prints a weekly issue-health digest.
 - [`slack-report`](slack-report/) -- reports the agent's intentions and progress to a Slack channel as a teammate-style update, via a minimal Slack app's bot token.
 - [`steady`](steady/) -- connects an agent to [Steady](https://runsteady.com) like a teammate: a daily check-in filed from the knowledge feed, and prompt replies to comments addressed to the agent.
