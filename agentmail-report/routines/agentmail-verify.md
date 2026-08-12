@@ -38,6 +38,23 @@ failure and its remedy.
    is scoped to a different inbox. Say which and stop -- do not attempt
    the send.
 
+   The `display_name` is the sender name recipients see, and it should
+   be your own name -- the agent name your standing instruction opens
+   with, exactly as written there. If it differs or is missing, set it:
+   PATCH the same inbox URL with body
+   `{"display_name": "<your name>"}` and the bearer key. A 200 with the
+   inbox object confirms it; say what changed. A 403 means the key
+   lacks `inbox_update`: report that the sender name stays wrong until
+   the key is re-minted per PLUGIN.md, and continue.
+
+   If agentmail-inbox is active in this agent, also GET
+   `https://api.agentmail.to/v0/threads?limit=1` with the bearer key --
+   that is the reply trigger's poll path, and it needs the key's
+   `message_read` grant. A 403 here means the key is report-only:
+   either re-mint it at the reply tier or deactivate agentmail-inbox.
+   Report the result in the same final sentence; do not print message
+   contents.
+
 2. **Send the test email.** Via the agentmail-send skill, to
    `$AGENTMAIL_REPORT_TO`. Introduce yourself by name -- you know who
    you are and what your job is from your standing context -- warm and
