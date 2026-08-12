@@ -10,83 +10,126 @@ skills: [slack-post]
 credentials: [slack_bot_token]
 ---
 
-Report the agent's recent activity to Slack. Your input is ./changes.md,
-the knowledge changes since the last report; your output is at most one
-`chat.postMessage` call to `$SLACK_CHANNEL`. The slack-post skill covers
+Post the agent's daily check-in to the team's Slack channel the way a
+teammate would: once, at the start of the workday, covering everything
+since the last one. Your input is your pending changes; your output is
+at most one message to `$SLACK_CHANNEL`. The slack-post skill covers
 formatting and sending.
 
-## Execution discipline
+## 1. Decide whether to post
 
-Your first and only initial action is to read `./changes.md`. If it says
-`No pending changes`, stop immediately: call no other tools, read no
-knowledge files or schedule, and do not look for a ledger. Otherwise, use
-only the pending changes, ./schedule.md, and the specific
-current-state files needed to compose the report.
+Check your pending changes before anything else. None means nothing has
+happened since the last report: stop right there -- read nothing
+further, post nothing, consume nothing. A quiet channel is the feature;
+never post a "nothing to report" message.
 
-## 1. Gate
+Then your ledger, which holds the last report you delivered. If it
+already covers these exact changes -- a post that landed without
+consuming -- consume them now without posting again; the team already
+read this report.
 
-`No pending changes` means nothing happened since the last report: exit
-without posting and without consuming. Never post a "nothing to report" message --
-a quiet channel is the feature.
-
-The same goes for a day with no news at all: every pending event a
-NO-OP and your window empty. "Nothing happened, nothing planned" is not
-a report; exit without consuming, and the NO-OPs roll into the next
-real one. News on either side posts as usual.
+Post -- unless the day holds no news at all: every pending event a
+NO-OP (or none), and your window empty. "Nothing happened, nothing
+planned" is not a check-in; stop without consuming, and the NO-OPs roll
+into the next real one. News on either side posts as usual.
 
 ## 2. Compose
 
-One message, written for teammates who can't see the machine: they
-don't have the changes, ledgers, or task list you do -- they have
-thirty seconds and a scrolling channel. A teammate at standup, not a
-status report generator: plain words, contractions welcome; one idea
-per bullet, one to three short sentences, the result never buried
-behind its setup. Say what happened and what it means for the team, not
-the machinery underneath: "the CSV export page shipped without a help
-doc, so I wrote one" beats "identified an uncovered surface and emitted
-a documentation PR".
+Write for teammates who can't see the machine. They don't have the
+changes, ledgers, or task list you do -- they have thirty seconds and a
+scrolling channel. Everything below follows from that.
 
-Compression drops, it doesn't condense evenly. The scope, the outcome,
-and the judgment call survive; the machine talking about itself dies --
-shas, ids, file paths, milestone chains, time estimates, state
-transitions, and the blow-by-blow of what you edited and pushed. A line
-that says what happened next rather than why it matters gets deleted,
-not shortened.
+Voice: a teammate at standup, not a status report generator -- plain
+words, contractions welcome. One idea per bullet, one to three short
+sentences, never burying the result behind its setup. Say what happened
+and what it means for the team, not the machinery underneath: "the CSV
+export page shipped without a help doc, so I wrote one" beats
+"identified an uncovered surface and emitted a documentation PR".
 
-Every reference carries its own context: a PR, issue, or page gets a
-link anchored on the words that describe it -- never a naked URL, never
-a bare filename in code formatting. People the events name stay named.
-Task ids are your own bookkeeping -- name the ask, never the id.
+Every reference carries its own context. A PR, issue, or page gets a
+link anchored on the words that describe it -- never a naked URL, and
+never trailed after the sentence in parentheses; resolving a bare
+relay#484 to a titled link is expected derivation. People the events
+name stay named -- never anonymized to "a customer". Task ids are your
+own bookkeeping -- name the ask, never the id.
 
-The sections divide the news, and each fact has one home: what
-happened owns the past, what's next owns what's coming, needs-a-human
-owns asks waiting on a person. Say a fact in its home section and
-nowhere else -- another section may point at it ("flagged it for a
-human"), never restate it. An event whose only content is an ask lives
-under needs-a-human and gets no what-happened bullet.
+The sections divide the news, and each fact has one home: what happened
+owns the past, what's next owns what's coming, needs-a-human owns asks
+waiting on a person. Say a fact in its home section and nowhere else --
+another section may point at it ("flagged it for a human"), never
+restate it. An event whose only content is an ask lives under
+needs-a-human and gets no what-happened bullet.
 
-Sections, built from your pending changes (current-state files supply
-state, never history the changes already cover), skipping any with
-nothing in it:
+- **What happened** -- your new events plus completed or cancelled
+  tasks, summarized into a good update. One bullet per outcome, related
+  work merged -- except events labeled NO-OP: drop those. If that
+  leaves nothing, one line summarizing the NO-OPs. Anything beyond what
+  the events say is invention.
 
-- **What happened** -- your new events plus completed or
-  cancelled tasks, one bullet per outcome, related work merged. NO-OP
-  events (checked, found nothing) collapse into a single trailing
-  clause, or drop entirely when there are real outcomes.
-- **What's next** -- one plain line per in-window routine: its mission,
-  not its mechanics, with open Agent-owned tasks attached to their
-  routine's line.
+  Events are written for you, not for the team -- full facts and
+  receipts. The rewrite drops, it doesn't condense evenly:
+
+  > swept open PRs carrying `keep-fresh` and found one: "Ask AI"
+  > (relay#2929)… 142 commits behind, mergeable_state `dirty`… merged
+  > `main` in; one add/add conflict in `robot.svg` -- both sides added
+  > the identical icon independently. Kept main's version: newer and
+  > already shipped. Pushed merge commit `c6c6f05b9`… behind_by now 0…
+  > commented on the PR naming the conflict and resolution.
+
+  becomes
+
+  > "Swept open PRs for staleness and brought the one match, [Ask
+  > AI](…), current with `main` -- resolving a duplicate robot-icon
+  > conflict in favor of the version that already shipped."
+
+  and, had the sweep found nothing,
+
+  > "Swept open PRs for staleness; all current."
+
+  The scope, the outcome, and the judgment call survive -- a sweep's
+  reach is what makes the line dense, so keep it. What doesn't survive
+  is the machine talking about itself: shas, timings, state
+  transitions, the blow-by-blow of what you pushed and commented, and
+  the wait for a human. Editorial color ("long-idle", "quick win",
+  "thanks!") goes with it. A sentence that says what happened next
+  rather than why it matters gets deleted, not shortened.
+
+- **What's next** -- required; never blank. It projects the schedule,
+  not the task list: one line per in-window routine, each its mission
+  in one short, plain sentence -- "Check recent PRs for any needed doc
+  updates", not its mechanics -- with any open Agent-owned tasks
+  attached to their routine's line. Open tasks neither add a routine to
+  the window nor remove one: a task whose routine is out of window
+  waits for that routine's fire day, and a task no routine covers gets
+  transferred to Human-owned. Before posting, check the counts: one
+  line per in-window routine, and every open Agent-owned task
+  accounted for.
+
+  "Nothing is scheduled" is valid only when your window is genuinely
+  empty (weekend or holiday ahead) -- never shorthand for a quiet or
+  blocked day.
+
 - **Needs a human** -- every Human-owned task your changes show as new
-  or transferred, and any task change naming a dependency it waits on,
-  worded as an ask a teammate could act on. Most days there are none:
-  skip the section rather than saying so.
+  or transferred, plus any task change naming a dependency it waits on,
+  each worded as an ask a teammate could act on. Nothing else -- a wait
+  that isn't a tracked ask isn't a blocker. Each ask is raised exactly
+  once: a consumed transition never re-presents, while the task stays
+  canonical until a human settles it. Most days there are none: skip
+  the section rather than saying so.
 
 Keep the whole message under a dozen short lines.
 
-## 3. Deliver, then consume
+## 3. Post
 
-Post via `chat.postMessage`. Delivery is `"ok": true` in the response
-body -- Slack returns HTTP 200 even for failures, so the status code
-proves nothing. On `ok: true`, consume the changes. Anything else means the
-report did not arrive -- do not consume, and exit; the same changes
-return next run.
+One `chat.postMessage`, per the slack-post skill; delivery is
+`"ok": true` in the response body and nothing else. On delivery, record
+the posted report in your ledger, replacing the last one -- it's both
+the double-post guard above and the file a person opens to catch up on
+this agent without Slack scrollback.
+
+## 4. Consume
+
+A delivered post is this routine's delivery -- consume the changes. So
+is a ledger match in the gate: already-delivered changes get consumed
+without a second post. A failed post, a closed gate, or an all-quiet
+skip delivered nothing: leave everything unconsumed.
