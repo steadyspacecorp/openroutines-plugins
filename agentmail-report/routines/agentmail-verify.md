@@ -32,11 +32,22 @@ failure and its remedy.
    `https://api.agentmail.to/v0/inboxes/$AGENTMAIL_INBOX_ID` with the
    bearer key returns the inbox object. Report its `email` and
    `display_name` -- that confirms the key works and which sender the
-   report will arrive as. A 401 or 403 here means the credential
+   report will arrive as. If `display_name` is missing or still a
+   generic "AgentMail", flag it: recipients see it as the sender name,
+   and the fix is the display-name PATCH in PLUGIN.md, run with the
+   organization key. A 401 or 403 here means the credential
    itself: re-set agentmail_api_key (and confirm the key carries
    `inbox_read`). A 404 means `$AGENTMAIL_INBOX_ID` is wrong or the key
    is scoped to a different inbox. Say which and stop -- do not attempt
    the send.
+
+   If agentmail-inbox is active in this agent, also GET
+   `https://api.agentmail.to/v0/threads?limit=1` with the bearer key --
+   that is the reply trigger's poll path, and it needs the key's
+   `message_read` grant. A 403 here means the key is report-only:
+   either re-mint it at the reply tier or deactivate agentmail-inbox.
+   Report the result in the same final sentence; do not print message
+   contents.
 
 2. **Send the test email.** Via the agentmail-send skill, to
    `$AGENTMAIL_REPORT_TO`. Introduce yourself by name -- you know who
