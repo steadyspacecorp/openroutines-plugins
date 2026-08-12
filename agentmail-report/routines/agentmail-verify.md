@@ -32,14 +32,20 @@ failure and its remedy.
    `https://api.agentmail.to/v0/inboxes/$AGENTMAIL_INBOX_ID` with the
    bearer key returns the inbox object. Report its `email` and
    `display_name` -- that confirms the key works and which sender the
-   report will arrive as. If `display_name` is missing or still a
-   generic "AgentMail", flag it: recipients see it as the sender name,
-   and the fix is the display-name PATCH in PLUGIN.md, run with the
-   organization key. A 401 or 403 here means the credential
+   report will arrive as. A 401 or 403 here means the credential
    itself: re-set agentmail_api_key (and confirm the key carries
    `inbox_read`). A 404 means `$AGENTMAIL_INBOX_ID` is wrong or the key
    is scoped to a different inbox. Say which and stop -- do not attempt
    the send.
+
+   The `display_name` is the sender name recipients see, and it should
+   be your own name -- the agent name your standing instruction opens
+   with, exactly as written there. If it differs or is missing, set it:
+   PATCH the same inbox URL with body
+   `{"display_name": "<your name>"}` and the bearer key. A 200 with the
+   inbox object confirms it; say what changed. A 403 means the key
+   lacks `inbox_update`: report that the sender name stays wrong until
+   the key is re-minted per PLUGIN.md, and continue.
 
    If agentmail-inbox is active in this agent, also GET
    `https://api.agentmail.to/v0/threads?limit=1` with the bearer key --
