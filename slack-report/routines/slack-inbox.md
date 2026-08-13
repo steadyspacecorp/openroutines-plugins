@@ -9,7 +9,7 @@ trigger:
   # update the parent message's reply metadata, so comparing the whole
   # response means replies wake this routine too.
   poll: https://slack.com/api/conversations.history?channel=C0000000000&limit=5
-  interval: 5m
+  interval: 1m
   credential: slack_bot_token
 timeout: 10m
 active: true
