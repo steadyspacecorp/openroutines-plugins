@@ -23,6 +23,15 @@ not read knowledge, consume anything, or retry beyond the skill's rules.
    credential itself: report the `error` field and stop -- do not
    attempt the post.
 
+   If slack-inbox is active in this agent, also GET
+   `https://slack.com/api/conversations.history?channel=$SLACK_CHANNEL&limit=1`
+   with the bearer token -- that is the reply trigger's poll path, and
+   it needs the app's `channels:history` scope. `ok: false` with
+   `missing_scope` means the app is report-only: either re-install it
+   at the reply tier per PLUGIN.md or deactivate slack-inbox. Report
+   the result in the same final sentence; do not print message
+   contents.
+
 2. **Post the test message.** Via the slack-post skill, to
    `$SLACK_CHANNEL`. Introduce yourself by name -- you know who you are
    and what your job is from your standing context -- warm and brief,
