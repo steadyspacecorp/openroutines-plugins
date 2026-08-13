@@ -45,7 +45,7 @@ Do not retry more than once in a run.
 ```json
 {
   "chat_id": "$TELEGRAM_CHAT_ID",
-  "text": "<b>What happened</b>\n• Wrote the missing help doc for the <a href=\"https://example.com/pr/42\">CSV export page</a> that shipped with 2.1\n\n<b>Needs a human</b>\n• Renew the staging TLS cert -- it expires Friday",
+  "text": "<b>What happened</b>\n• Wrote the missing help doc for the <a href=\"https://example.com/pr/42\">CSV export page</a> that shipped with 2.1\n\n<b>Needs a human</b>\n• Renew the staging TLS cert -- it expires Friday\n\n<i>Reply to this message and I'll pick it up -- I check this chat hourly on weekdays.</i>",
   "parse_mode": "HTML",
   "link_preview_options": { "is_disabled": true }
 }
