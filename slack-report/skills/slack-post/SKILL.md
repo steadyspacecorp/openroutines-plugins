@@ -49,15 +49,10 @@ label), then `blocks` for structure:
   "blocks": [
     { "type": "header", "text": { "type": "plain_text", "text": "Daily check-in" } },
     { "type": "section", "text": { "type": "mrkdwn", "text": "*What happened*\n• Wrote the missing help doc for the <https://example.com/pr/42|CSV export page> that shipped with 2.1" } },
-    { "type": "section", "text": { "type": "mrkdwn", "text": "*Needs a human*\n• Renew the staging TLS cert -- it expires Friday" } },
-    { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Reply in this thread and I'll pick it up -- I check for replies every few minutes on weekdays." } ] }
+    { "type": "section", "text": { "type": "mrkdwn", "text": "*Needs a human*\n• Renew the staging TLS cert -- it expires Friday" } }
   ]
 }
 ```
-
-The `context` block renders as the small gray line at the bottom of the
-message -- the place for a reply-invitation footer when the routine
-asks for one. It never goes in the `text` fallback.
 
 (Substitute the real channel ID when building the payload; JSON does not
 expand `$SLACK_CHANNEL`.)

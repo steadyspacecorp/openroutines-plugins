@@ -117,15 +117,6 @@ needs-a-human and gets no what-happened bullet.
   canonical until a human settles it. Most days there are none: skip
   the section rather than saying so.
 
-- **Footer** -- when slack-inbox is active in this agent (its
-  frontmatter says `active: true`; a copy in the agent's routines/
-  directory wins over the vendored plugin copy), end the message with
-  one context-block line that invites replies and names the reply
-  cadence in plain words from that routine's trigger interval: "Reply
-  in this thread and I'll pick it up -- I check for replies every few
-  minutes on weekdays." When slack-inbox is inactive, no footer --
-  never invite replies into a void.
-
 Keep the whole message under a dozen short lines.
 
 ## 3. Post
