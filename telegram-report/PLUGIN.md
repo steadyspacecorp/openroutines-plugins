@@ -15,7 +15,7 @@ Points an agent's reporting at a Telegram chat. The routine is a knowledge-feed 
 
 ## What you get
 
-- **telegram-report** -- consumes the knowledge change feed and sends a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no message -- the chat never gets a "nothing to report" message. When telegram-inbox is active, the report ends with a small italic footer inviting replies and naming the reply cadence, so nobody wonders whether anyone is listening.
+- **telegram-report** -- consumes the knowledge change feed and sends a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no message -- the chat never gets a "nothing to report" message.
 - **telegram-inbox** -- the reply loop. On its schedule it drains the bot's `getUpdates` queue, and when someone in the report chat replies to a report, the routine answers from the agent's knowledge: questions get answers, action requests become tracked tasks, answers to the report's asks resolve them. Replying in the report chat is its only Telegram write; everything else the bot receives is never answered.
 - **telegram-verify** -- a manual-only wiring check: run it after setup and it confirms the token and chat, sets the bot's display name to the agent's own name (the `name` in `openroutines.yml`) when it differs, then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run telegram-verify --no-knowledge` (quiet diagnostics, and `--no-knowledge` so a local run leaves the knowledge worktree untouched).
 - **telegram-send** skill -- how to format and send the report: the `sendMessage` payload, Telegram's small HTML subset, the `ok: true` delivery check, exactly one chat.
@@ -27,7 +27,7 @@ A bot token has no scopes: whoever holds it can read the bot's update queue and 
 
 ## Why no trigger
 
-OpenRoutines poll triggers send their credential as a bearer header; Telegram authenticates with the token in the URL path, and a committed trigger URL must never carry a token. So telegram-inbox has no change-detection trigger: its schedule is the whole poll cadence. It ships hourly across the workday, and each fire that finds an empty queue ends one call in. Tighten the schedule if you want faster answers; that is the one knob, and telegram-report words its reply footer from it, so the invitation stays honest as you tune it.
+OpenRoutines poll triggers send their credential as a bearer header; Telegram authenticates with the token in the URL path, and a committed trigger URL must never carry a token. So telegram-inbox has no change-detection trigger: its schedule is the whole poll cadence. It ships hourly across the workday, and each fire that finds an empty queue ends one call in. Tighten the schedule if you want faster answers; that is the one knob.
 
 ## Create the bot
 

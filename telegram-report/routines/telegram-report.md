@@ -117,15 +117,6 @@ needs-a-human and gets no what-happened bullet.
   canonical until a human settles it. Most days there are none: skip
   the section rather than saying so.
 
-- **Footer** -- when telegram-inbox is active in this agent (its
-  frontmatter says `active: true`; a copy in the agent's routines/
-  directory wins over the vendored plugin copy), end the message with
-  one italic line that invites replies and names the reply cadence in
-  plain words from that routine's schedule: "Reply to this message and
-  I'll pick it up -- I check this chat hourly on weekdays." When
-  telegram-inbox is inactive, no footer -- never invite replies into a
-  void.
-
 Keep the whole message under a dozen short lines.
 
 ## 3. Send
