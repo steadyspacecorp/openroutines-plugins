@@ -14,6 +14,7 @@ Each top-level directory is one plugin containing a `PLUGIN.md` manifest and its
 - [`github-issues`](github-issues/) -- conservatively triages a GitHub repository's issues and prints a weekly issue-health digest.
 - [`slack-report`](slack-report/) -- reports the agent's intentions and progress to a Slack channel as a teammate-style update, via a minimal Slack app's bot token.
 - [`steady`](steady/) -- connects an agent to [Steady](https://runsteady.com) like a teammate: a daily check-in filed from the knowledge feed, and prompt replies to comments addressed to the agent.
+- [`telegram-report`](telegram-report/) -- reports the agent's intentions and progress to a Telegram chat as a teammate-style update, and answers replies to the report, via a BotFather bot token.
 
 ## Install
 
