@@ -40,12 +40,14 @@ actually handled (answered, dismissed, or relayed); an update whose
 reply failed to send stays past the watermark, so the next run reads
 it again. Never confirm ahead of handling.
 
-An HTTP `409` means the queue has another reader -- a webhook is set on
-the bot, or a second poller is running. Only this routine may read the
-queue: report which (`curl -sS
-"https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getWebhookInfo"`
+An HTTP `409` means another `getUpdates` request was in flight -- the
+routine's own trigger poll can collide with yours for an instant, so
+wait five seconds and retry once. A second `409` means the queue has
+another consumer: a webhook is set on the bot, or a second poller is
+running. Only this routine may consume the queue: report which (`curl
+-sS "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getWebhookInfo"`
 shows a webhook's URL) and raise a Human-owned task rather than
-retrying. A `401` means the token itself; same treatment.
+retrying further. A `401` means the token itself; same treatment.
 
 ## What is yours to answer
 

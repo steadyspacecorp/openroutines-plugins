@@ -2,11 +2,16 @@
 # Editing this vendored routine in place may create conflicts when its plugin
 # is updated. To override its behavior safely, copy it with the same filename
 # into your OpenRoutines agent's routines/ directory and edit that copy.
-# No trigger: OpenRoutines poll triggers authenticate with a bearer header,
-# and Telegram wants the token in the URL path -- a committed trigger URL
-# must never carry a token. The schedule below is the whole poll cadence;
-# tighten it for faster answers.
-schedule: "0 8-18 * * 1-5"
+schedule: "0 9,15 * * 1-5"
+trigger:
+  # $TELEGRAM_BOT_TOKEN is a reference, not the token: OpenRoutines
+  # substitutes the credential when it polls, and the committed URL never
+  # carries the secret. No `offset` (that would confirm updates the routine
+  # hasn't handled) and no `select`: the digest of the whole pending queue
+  # changes whenever a new update lands, so replies wake this routine.
+  poll: https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getUpdates
+  interval: 1m
+  credential: telegram_bot_token
 timeout: 10m
 active: true
 teamwork: off

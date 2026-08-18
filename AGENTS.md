@@ -38,10 +38,10 @@ Use OpenRoutines in prose and `openroutines` in commands and paths. Use `--` rat
 
 Before handing off a plugin:
 
-1. Install it into a freshly scaffolded throwaway agent from this Git repository:
+1. Install it into a fresh throwaway agent from this Git repository:
 
    ```bash
-   openroutines scaffold /tmp/plugin-test-agent
+   openroutines new /tmp/plugin-test-agent
    cd /tmp/plugin-test-agent
    openroutines plugin add /path/to/openroutines-plugins --path <plugin-name> --yes
    ```

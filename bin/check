@@ -50,7 +50,8 @@ for dir in */; do
   name="$(printf '%s\n' "$fm" | sed -n 's/^name:[[:space:]]*//p' | head -1)"
   [[ "$name" == "$p" ]] || err "$p: PLUGIN.md name '$name' does not match directory"
   [[ "$name" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "$p: name '$name' is not bare lowercase-hyphen"
-  printf '%s\n' "$fm" | grep -q '^description:[[:space:]]*[^[:space:]]' || err "$p: PLUGIN.md missing description"
+  # No grep -q here: with pipefail, an early exit gives printf SIGPIPE on macOS.
+  printf '%s\n' "$fm" | grep '^description:[[:space:]]*[^[:space:]]' >/dev/null || err "$p: PLUGIN.md missing description"
 
   # Payload is limited to PLUGIN.md, routines/, skills/, and knowledge/ledgers/.
   extra="$(find "$p" -mindepth 1 -maxdepth 1 ! -name PLUGIN.md ! -name routines ! -name skills ! -name knowledge)"
@@ -101,7 +102,7 @@ for dir in */; do
       c && /^[[:space:]]*-[[:space:]]*/ {s=$0; sub(/^[[:space:]]*-[[:space:]]*/,"",s); print s; next}
       c {c=0}')"
     for u in $used; do
-      printf '%s\n' "$creds" | grep -qx "$u" || err "$r: credential '$u' not declared in $p/PLUGIN.md"
+      printf '%s\n' "$creds" | grep -x "$u" >/dev/null || err "$r: credential '$u' not declared in $p/PLUGIN.md"
     done
   done
 
