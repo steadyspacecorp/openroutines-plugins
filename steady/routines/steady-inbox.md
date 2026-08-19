@@ -43,7 +43,7 @@ exceptions:
   the routine whose domain covers it, per the schedule.
 - **Question or feedback** → answer in-thread.
 - **Answer to a Human-owned task** → resolve the
-  task in place: delete it if the human settled it, transfer it to
+  task in place: delete it if they settled it, transfer it to
   Agent-owned if the ask became agent work, cancel it if declined;
   acknowledge briefly.
 - **Anything else** (FYI, status update, someone claiming work) →
@@ -60,9 +60,9 @@ id; a failed post gets no entry.
 From the teammate check-in and goal update entries the digest
 surfaced:
 
-- A human explicitly settled a Human-owned task (the ask itself, not
+- Someone explicitly settled a Human-owned task (the ask itself, not
   agent work near the topic) → resolve it as in step 2.
-- A human's work covers an open Agent-owned task → mark it done
+- Someone's work covers an open Agent-owned task → mark it done
   ([x]), crediting them.
 - Refresh your standing context with in-flight or claimed work overlapping
   your own lanes — the domains your routines cover: who, what, firm or
@@ -78,7 +78,7 @@ Beyond these uses, don't act on teammates' content.
 - Mark open Agent-owned tasks done when your recorded events or your
   check-ins show they happened; merge duplicates; delete done tasks
   after about a week.
-- A Human-owned task is settled only two ways: a human
+- A Human-owned task is settled only two ways: someone
   explicitly settled the ask, or about three weeks unanswered → quiet
   cancel. When in doubt, leave it.
 - The goal board — a ledger section listing the open goals you're

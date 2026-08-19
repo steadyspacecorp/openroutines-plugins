@@ -46,12 +46,13 @@ page, or person gets a markdown link anchored on the words that describe
 it — never a naked URL, and never trailed after the sentence in
 parentheses — or an @mention; resolving a bare steady#3084 to a titled
 link is expected derivation. People the events name stay named — full
-name or @mention, never anonymized to "a customer". Task ids like
+name or @mention, never anonymized to "a customer". Unnamed, they are
+people, a person, someone, a teammate — never "a human". Task ids like
 `task-20260721-2` are your own bookkeeping — name the ask, never the id.
 
 The fields divide the news, and each fact has one home: previous owns
 what happened, intentions own what's coming, blockers own asks waiting
-on a human. Say a fact in its home field and nowhere else — another
+on a person. Say a fact in its home field and nowhere else — another
 field may point at it ("flagged it as a blocker"), never restate it. An
 event whose only content is an ask lives in blockers and gets no
 previous bullet.
@@ -82,13 +83,13 @@ previous bullet.
 
   > "Swept open PRs for staleness; all current."
 
-  The scope, the outcome, and the judgment call survive — a sweep's
-  reach is what makes the line dense, so keep it. What doesn't survive is
-  the machine talking about itself: shas, timings, state transitions,
-  the blow-by-blow of what you pushed and commented, and the wait for a
-  human — review requested, awaiting read-through. Editorial color
-  ("long-idle", "quick win") goes with it. A sentence that says what
-  happened next rather than why it matters gets deleted, not shortened.
+  Keep what you looked at, what came of it, and a link to whatever you
+  produced. Cut the machine talking about itself — shas, timings, state
+  transitions, the blow-by-blow of what you pushed and commented, the
+  wait for a person. Cut anyone else's part: what someone else did, and
+  whatever gate let you act. Cut editorial color ("long-idle", "quick
+  win"). A sentence that says what happened next rather than why it
+  matters gets deleted, not shortened.
 
 - **intentions** — required; never blank. Intentions project the
   schedule, not the task list: write one line per in-window routine.
@@ -109,8 +110,8 @@ previous bullet.
   Nothing else — a wait that isn't a tracked ask isn't a blocker.
   Most days there are none: leave the field empty rather than writing
   that there is nothing. Each ask is raised exactly once: a consumed
-  transition never re-presents, while the task stays canonical until a
-  human settles it.
+  transition never re-presents, while the task stays canonical until
+  someone settles it.
 - **previous_completed** — set true only when your new events cover
   every intention the ledger says you filed last time; otherwise omit
   the field. Leave mood blank.
