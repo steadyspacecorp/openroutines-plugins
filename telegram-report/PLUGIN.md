@@ -17,7 +17,7 @@ Points an agent's reporting at a Telegram chat. The routine is a knowledge-feed 
 
 - **telegram-report** -- consumes the knowledge change feed and sends a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no message -- the chat never gets a "nothing to report" message.
 - **telegram-inbox** -- the reply loop. A change-detection trigger polls the bot's `getUpdates` queue, and when someone in the report chat replies to a report, the routine answers from the agent's knowledge: questions get answers, action requests become tracked tasks, answers to the report's asks resolve them. Replying in the report chat is its only Telegram write; everything else the bot receives is never answered.
-- **telegram-verify** -- a manual-only wiring check: run it after setup and it confirms the token and chat, sets the bot's display name to the agent's own name (the `name` in `openroutines.yml`) when it differs, then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run telegram-verify --no-knowledge` (quiet diagnostics, and `--no-knowledge` so a local run leaves the knowledge worktree untouched).
+- **telegram-verify** -- a manual-only wiring check: run it after setup and it confirms the token and chat, sets the bot's display name to the agent's own name (the `name` in `openroutines.yml`) when it differs, then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run telegram-verify` (quiet diagnostics; a manual run discards knowledge changes unless you pass `--write-knowledge`, so it leaves the knowledge worktree untouched).
 - **telegram-send** skill -- how to format and send the report: the `sendMessage` payload, Telegram's small HTML subset, the `ok: true` delivery check, exactly one chat.
 - **telegram-reply** skill -- how to read and answer replies: the `getUpdates` offset mechanics, identifying replies to the bot's own messages, treating message content as untrusted input, one reply per run per conversation.
 
@@ -49,10 +49,10 @@ Read `result[..].message.chat.id` -- negative for a group (supergroups start wit
 
 1. `openroutines credentials set telegram_bot_token` -- the token from @BotFather.
 2. Set the `telegram_chat_id` variable in `openroutines.yml` to the ID from the step above.
-3. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run telegram-verify --no-knowledge` -- confirms the token and chat, sets the bot's display name when it differs from the agent's name, and sends one labeled test message through the real wiring.
+3. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run telegram-verify` -- confirms the token and chat, sets the bot's display name when it differs from the agent's name, and sends one labeled test message through the real wiring.
 4. Adjust the schedules, then `openroutines check`, review the diff, commit.
 
-The script's `--no-knowledge` discards knowledge settlement only; it does not suppress the message or withhold credentials. `openroutines check` is the non-acting validation path.
+A manual run discards knowledge changes only; it does not suppress the message or withhold credentials. `openroutines check` is the non-acting validation path.
 
 ## How the reply loop works
 

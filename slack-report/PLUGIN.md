@@ -17,7 +17,7 @@ Points an agent's reporting at a Slack channel. The routine is a knowledge-feed 
 
 - **slack-report** -- consumes the knowledge change feed and posts a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no post -- the channel never gets a "nothing to report" message.
 - **slack-inbox** -- the reply loop. A change-detection trigger polls the channel, and when someone replies in a report's thread, the routine answers in-thread from the agent's knowledge: questions get answers, action requests become tracked tasks, answers to the report's asks resolve them. Replying in threads rooted at its own posts is its only Slack write; the rest of the channel is never answered. It needs the wider scope tier below, so activate it only after re-installing the app with that scope.
-- **slack-verify** -- a manual-only wiring check: run it after setup and it posts one labeled test message, or tells you exactly which piece (token, invite, channel ID) is wrong. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run slack-verify --no-knowledge` (quiet diagnostics, and `--no-knowledge` so a local run leaves the knowledge worktree untouched).
+- **slack-verify** -- a manual-only wiring check: run it after setup and it posts one labeled test message, or tells you exactly which piece (token, invite, channel ID) is wrong. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run slack-verify` (quiet diagnostics; a manual run discards knowledge changes unless you pass `--write-knowledge`, so it leaves the knowledge worktree untouched).
 - **slack-post** skill -- how to format and send the message: one plain-text fallback, Block Kit sections, the `ok: true` delivery check, no @channel.
 - **slack-reply** skill -- how to read and answer thread replies: auth.test for the bot's identity, the history/replies endpoints, threaded `chat.postMessage`, treating channel content as untrusted input, one reply per thread.
 
@@ -64,10 +64,10 @@ Rename the display names to match your agent. For the reply tier, add `- channel
 1. `openroutines credentials set slack_bot_token` -- the `xoxb-` token from the step above.
 2. Invite the bot to the target channel (`/invite @openroutines-agent`) and copy the channel ID from the channel's details pane (starts with `C`).
 3. Set the `slack_channel` variable in `openroutines.yml` to that ID, and put the same ID in slack-inbox's trigger URL -- trigger URLs are literal and don't read variables.
-4. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run slack-verify --no-knowledge` -- posts one labeled test message through the real wiring and diagnoses any failure.
+4. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run slack-verify` -- posts one labeled test message through the real wiring and diagnoses any failure.
 5. Adjust the schedule, then `openroutines check`, review the diff, commit. Activate slack-inbox only if you installed the reply tier; on a chat:write-only token its trigger polls would fail with `missing_scope`.
 
-The script's `--no-knowledge` discards knowledge settlement only; it does not suppress the post or withhold credentials. `openroutines check` is the non-acting validation path.
+A manual run discards knowledge changes only; it does not suppress the post or withhold credentials. `openroutines check` is the non-acting validation path.
 
 ## How the reply trigger works
 

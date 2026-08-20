@@ -47,7 +47,7 @@ Install it on exactly the repository named by `github_repo`. OpenRoutines' `gith
 2. Set `github_repo`, `triage_labels`, and `stale_after_days` in the `variables:` map.
 3. `openroutines credentials set github_app_private_key`
 4. Adjust both schedules and review the policy in `skills/github-issues/SKILL.md`.
-5. Run `openroutines routines test github-issue-triage` and `openroutines routines test github-issue-digest`.
+5. Run `openroutines routines run github-issue-triage --rehearse` and `openroutines routines run github-issue-digest --rehearse`. A rehearsal asks the routine not to change outside systems and never saves knowledge; it is a request, not a guarantee.
 6. Run `openroutines check`, review the complete diff, then activate the routines you want.
 
 The steward never closes issues, edits issue bodies, assigns people, or marks duplicates automatically. Those are higher-judgment actions left as explicit recommendations unless you deliberately change the vendored policy.

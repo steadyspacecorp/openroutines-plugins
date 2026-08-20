@@ -13,7 +13,7 @@ Points an agent's reporting at a Discord channel. The routine is a knowledge-fee
 ## What you get
 
 - **discord-report** -- consumes the knowledge change feed and posts a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no post -- the channel never gets a "nothing to report" message.
-- **discord-verify** -- a manual-only wiring check: run it after setup and it confirms the webhook (a bare GET, no post) then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run discord-verify --no-knowledge` (quiet diagnostics, and `--no-knowledge` so a local run leaves the knowledge worktree untouched).
+- **discord-verify** -- a manual-only wiring check: run it after setup and it confirms the webhook (a bare GET, no post) then sends one labeled test message. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run discord-verify` (quiet diagnostics; a manual run discards knowledge changes unless you pass `--write-knowledge`, so it leaves the knowledge worktree untouched).
 - **discord-post** skill -- how to format and send the message: content plus one embed, the `?wait=true` delivery check, structural mention suppression, no retries past one.
 
 Unlike Slack, Discord's channel webhooks are a first-class, supported feature, so this plugin gets the narrowest possible design: the URL both authenticates and addresses one channel, post-only. One credential, no variables, no app to create.
@@ -22,9 +22,9 @@ Unlike Slack, Discord's channel webhooks are a first-class, supported feature, s
 
 1. In the target channel: Settings → Integrations → Webhooks → New Webhook. Name it after your agent (that's the poster's display name), then copy the URL.
 2. `openroutines credentials set discord_webhook_url`
-3. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run discord-verify --no-knowledge` -- confirms the webhook and posts one labeled test message through the real wiring.
+3. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run discord-verify` -- confirms the webhook and posts one labeled test message through the real wiring.
 4. Adjust the schedule, then `openroutines check`, review the diff, commit.
 
-The script's `--no-knowledge` discards knowledge settlement only; it does not suppress Discord posts or withhold credentials. `openroutines check` is the non-acting validation path.
+A manual run discards knowledge changes only; it does not suppress Discord posts or withhold credentials. `openroutines check` is the non-acting validation path.
 
 Works alongside other consumers: each keeps its own cursor over the same feed, so adding Discord changes nothing about the routines doing the work -- or about any other destination already reporting. To re-point the report, create a webhook in the new channel and re-set the credential.

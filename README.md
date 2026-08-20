@@ -20,7 +20,7 @@ Each top-level directory is one plugin containing a `PLUGIN.md` manifest and its
 openroutines plugin add steadyspacecorp/openroutines-plugins --path github-issues
 ```
 
-Installation shows the plugin's grant summary, vendors it under `plugins/github-issues/` with exact source provenance, and forces its routines inactive. Follow the plugin's setup instructions, review the diff, run `openroutines check`, and activate only the routines you want.
+Installation shows the plugin's grant summary, vendors it under `.openroutines/plugins/github-issues/` with exact source provenance, and forces its routines inactive. Follow the plugin's setup instructions, review the diff, run `openroutines check`, and activate only the routines you want.
 
 Installed plugins can later be inspected and updated from inside the agent:
 

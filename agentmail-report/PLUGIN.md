@@ -19,7 +19,7 @@ Points an agent's reporting at an email address. The routine is a knowledge-feed
 
 - **agentmail-report** -- consumes the knowledge change feed and emails a digest: what happened, what's now on someone's plate, what changed in the task list. Nothing new since last time means no email -- the recipient never gets a "nothing to report" message.
 - **agentmail-inbox** -- the reply loop. A change-detection trigger polls the inbox, and when the report recipient replies, the routine answers in-thread from the agent's knowledge: questions get answers, action requests become tracked tasks, answers to the report's asks resolve them. Replying in-thread to the one recipient is its only email write; mail from anyone else is never answered. It needs the wider key tier below, so activate it only after minting that key.
-- **agentmail-verify** -- a manual-only wiring check: run it after setup and it confirms the key and inbox, sets the inbox's sender name to the agent's own name (the `name` in `openroutines.yml`) when it differs, then sends one labeled test email. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run agentmail-verify --no-knowledge` (quiet diagnostics, and `--no-knowledge` so a local run leaves the knowledge worktree untouched).
+- **agentmail-verify** -- a manual-only wiring check: run it after setup and it confirms the key and inbox, sets the inbox's sender name to the agent's own name (the `name` in `openroutines.yml`) when it differs, then sends one labeled test email. It ships inactive and stays that way; the scheduler never fires it. Run it with `OPENROUTINES_LOG_LEVEL=warn openroutines routines run agentmail-verify` (quiet diagnostics; a manual run discards knowledge changes unless you pass `--write-knowledge`, so it leaves the knowledge worktree untouched).
 - **agentmail-send** skill -- how to format and send the report email: subject as the day's headline, matching plain-text and HTML bodies, the `message_id` delivery check, exactly one recipient.
 - **agentmail-reply** skill -- how to read and answer replies: the list/get/reply endpoints, quoted-text handling, treating message content as untrusted input, one reply per thread.
 
@@ -62,10 +62,10 @@ Either way the key cannot touch other inboxes, modify or delete mail, or create 
 
 1. `openroutines credentials set agentmail_api_key` -- the inbox-scoped key from the step above.
 2. Set the `agentmail_inbox_id` and `agentmail_report_to` variables in `openroutines.yml`.
-3. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run agentmail-verify --no-knowledge` -- confirms the key and inbox, sets the sender name when it differs from the agent's name, and sends one labeled test email through the real wiring.
+3. `OPENROUTINES_LOG_LEVEL=warn openroutines routines run agentmail-verify` -- confirms the key and inbox, sets the sender name when it differs from the agent's name, and sends one labeled test email through the real wiring.
 4. Adjust the schedule, then `openroutines check`, review the diff, commit. Activate agentmail-inbox only if you minted the reply-tier key; on the report-only key its trigger polls would fail with 403.
 
-The script's `--no-knowledge` discards knowledge settlement only; it does not suppress email or withhold credentials. `openroutines check` is the non-acting validation path.
+A manual run discards knowledge changes only; it does not suppress email or withhold credentials. `openroutines check` is the non-acting validation path.
 
 ## How the reply trigger works
 

@@ -4,7 +4,7 @@ Guidance for coding agents working on this OpenRoutines plugin collection.
 
 ## What this repository is
 
-Each top-level directory is one independently installable OpenRoutines plugin. A plugin groups reusable routines, Agent Skills, required credential and variable declarations, and optional ledger seeds. It is vendored into an OpenRoutines-generated agent under `plugins/<name>/`.
+Each top-level directory is one independently installable OpenRoutines plugin. A plugin groups reusable routines, Agent Skills, required credential and variable declarations, and optional ledger seeds. It is vendored into an OpenRoutines-generated agent under `.openroutines/plugins/<name>/`.
 
 Plugins are executable supply-chain input. Routine prompts and skill instructions can direct an unattended model holding real credentials, so review authority and behavior together.
 
