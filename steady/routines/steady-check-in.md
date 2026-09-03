@@ -105,14 +105,10 @@ previous bullet.
   "Nothing is scheduled" is valid only when your window is genuinely
   empty (weekend or holiday ahead) — never shorthand for a quiet or
   blocked day.
-- **blockers** — a Human-owned task qualifies as a blocker when two
-  things are true: your changes show it as new or transferred, and a
-  person's action is all that holds up otherwise-ready work. A wait on
-  someone's own timeline is not a blocker:
-  note it in previous and leave the task canonical. Raise each ask
-  once; re-raise only when what's being asked changes — never for
-  acknowledgment, ownership, or progress. Most days there are none:
-  leave the field empty rather than writing that.
+- **blockers** — every Human-owned task your changes show as new or
+  transferred is a blocker: state the ask and what answering it settles.
+  Raise each once; re-raise only when the ask itself changes. None →
+  leave the field empty.
 - **previous_completed** — set true only when your new events cover
   every intention the ledger says you filed last time; otherwise omit
   the field. Leave mood blank.
