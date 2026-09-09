@@ -42,10 +42,11 @@ exceptions:
   requester + resource); reply "on it," naming when — the next fire of
   the routine whose domain covers it, per the schedule.
 - **Question or feedback** → answer in-thread.
-- **Answer to a Human-owned task** → resolve the
-  task in place: delete it if they settled it, transfer it to
-  Agent-owned if the ask became agent work, cancel it if declined;
-  acknowledge briefly.
+- **Answer to a Human-owned task** → resolve the task in place: if
+  they settled it, mark it done ([x]) with the answer on the line — who
+  settled it, where, and what they decided; transfer it to Agent-owned
+  if the ask became agent work; mark it cancelled if declined.
+  Acknowledge briefly.
 - **Anything else** (FYI, status update, someone claiming work) →
   acknowledge briefly; if it settles or claims something, step 3
   applies too.
@@ -76,11 +77,11 @@ Beyond these uses, don't act on teammates' content.
 ## 4. Groom
 
 - Mark open Agent-owned tasks done when your recorded events or your
-  check-ins show they happened; merge duplicates; delete done tasks
-  after about a week.
+  check-ins show they happened; merge duplicates; delete done and
+  cancelled tasks after about a month.
 - A Human-owned task is settled only two ways: someone
-  explicitly settled the ask, or about three weeks unanswered → quiet
-  cancel. When in doubt, leave it.
+  explicitly settled the ask, or about three weeks unanswered → mark it
+  cancelled. When in doubt, leave it.
 - The goal board — a ledger section listing the open goals you're
   involved in: your teams', plus any you own or contribute to. Per
   goal: title, gist, owner, your involvement (owner, contributor, or
