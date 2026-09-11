@@ -8,7 +8,7 @@ trigger:
   select: /0/id
   interval: 5m
   credential: steady_token
-timeout: 10m
+timeout: 20m
 teamwork: off
 mcp: [steady]
 credentials: [steady_token]
