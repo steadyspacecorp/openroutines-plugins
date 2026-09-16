@@ -44,10 +44,9 @@ customer". Unnamed people are a person, someone, a teammate — never "a
 human". Name the ask, never its task id.
 
 Each fact has one home: previous for what happened, intentions for
-what's coming, blockers for asks waiting on a person. Say it there and
+what's coming, blockers for asks your work waits on. Say it there and
 nowhere else — another field may point at it ("flagged it as a
-blocker"), never restate it. An event that is only an ask goes in
-blockers, with no previous bullet.
+blocker"), never restate it.
 
 - **previous** — one bullet per new event: what you looked at, what came
   of it, and a link to what you produced. Drop NO-OP events; if nothing
