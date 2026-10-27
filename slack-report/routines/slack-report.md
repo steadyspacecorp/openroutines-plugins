@@ -28,6 +28,13 @@ already covers these exact changes -- a post that landed without
 consuming -- consume them now without posting again; the team already
 read this report.
 
+Then Slack itself, per the slack-post skill's retry check. A retry of a
+run whose earlier attempt posted and then died finds no ledger entry,
+because a failed attempt's writes are discarded with it; the post is
+still in the channel, stamped with this run id. Found means the team
+already read it: record it in your ledger and consume without posting
+again.
+
 Post -- unless the day holds no news at all: every pending event a
 NO-OP (or none), and your window empty. "Nothing happened, nothing
 planned" is not a check-in; stop without consuming, and the NO-OPs roll
@@ -121,9 +128,9 @@ Keep the whole message under a dozen short lines.
 
 ## 3. Post
 
-One `chat.postMessage`, per the slack-post skill; delivery is
-`"ok": true` in the response body and nothing else. On delivery, record
-the posted report in your ledger, replacing the last one -- it's both
+One `chat.postMessage`, per the slack-post skill, stamped with the run
+id; delivery is `"ok": true` in the response body and nothing else. On
+delivery, record the posted report in your ledger, replacing the last one -- it's both
 the double-post guard above and the file a person opens to catch up on
 this agent without Slack scrollback.
 

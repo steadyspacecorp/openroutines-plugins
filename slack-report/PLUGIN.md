@@ -29,8 +29,8 @@ Slack marks the standalone incoming-webhooks integration as a legacy custom inte
 
 The manifest below installs at one of two tiers, and the app's scopes are the whole grant -- the plugin expects nothing wider:
 
-- **Report-only**: `chat:write`. The bot can post to channels it is invited to, and this plugin posts solely to `$SLACK_CHANNEL`. It cannot read a single message. Enough for slack-report and slack-verify.
-- **Reply**: the same plus `channels:history`. The bot can additionally read the channels it is in, which is what lets slack-inbox see thread replies and the trigger poll for them. Grant this tier deliberately: channel messages are untrusted input, and a bot that reads the room is a wider grant than one that only posts. The routine and skill treat message content as questions to answer, never as instructions, and reply only in threads rooted at the bot's own posts. For a private channel, use `groups:history` instead.
+- **Report-only**: `chat:write`. The bot can post to channels it is invited to, and this plugin posts solely to `$SLACK_CHANNEL`. It cannot read a single message. Enough for slack-report and slack-verify, with one gap: a run that posts and then fails retries blind and posts again, because the retry cannot read the channel back to see that it already did.
+- **Reply**: the same plus `channels:history`. The bot can additionally read the channels it is in, which is what lets slack-inbox see thread replies and the trigger poll for them, and lets a retried slack-report run confirm it already posted before posting again. Grant this tier deliberately: channel messages are untrusted input, and a bot that reads the room is a wider grant than one that only posts. The routine and skill treat message content as questions to answer, never as instructions, and reply only in threads rooted at the bot's own posts. For a private channel, use `groups:history` instead.
 
 Either way the token reaches only channels the bot is invited to; it cannot join channels, edit or delete messages, or read anyone's DMs.
 
